@@ -1,14 +1,16 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "STIN Burza - Domů";
+    ViewData["Title"] = "Domů";
 }
 
-<div class="modules-grid" id="modulesGrid"> </div>
+<h2>Hlavní stránka - STIN Burza</h2>
+
+<!-- Sem se budou dynamicky vkládat moduly (grafy) -->
+<div id="modulesGrid" class="modules-grid"></div>
 
 @section Scripts {
     <script>
         console.log("Index.cshtml načteno!");
-        
     </script>
 }

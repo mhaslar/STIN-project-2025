@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "404";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>404</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        .cont {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("/img/crash.webp");
+            background-position: center;
+            background-size: cover;
+        }
+
+        .cont__item {
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cont">
+        <div class="cont__item">
+            <h1>404</h1>
+            <p>Tahle stránka tak moc neexistuje, až z toho spadla celá burza</p>
+        </div>
+    </div>
+</body>
+
+</html>
