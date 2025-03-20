@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using STIN_Burza.Models;
 using STIN_Burza.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace STIN_Burza.Controllers
@@ -16,20 +17,20 @@ namespace STIN_Burza.Controllers
             _stockService = stockService;
         }
 
-        // 1. ZÌsk·nÌ historick˝ch dat + filtrov·nÌ
-        [HttpPost("filter")]
-        public async Task<IActionResult> GetFilteredStocks([FromBody] StockRequest request)
+        // ‚úÖ 1Ô∏è‚É£ Endpoint: `liststock`
+        [HttpGet("liststock")]
+        public IActionResult ListStocks()
         {
-            var stockResponse = await _stockService.GetFilteredStocksAsync(request);
-            return Ok(stockResponse);
+            var stocks = _stockService.GetAllStocks();
+            return Ok(stocks);
         }
 
-        // 2. Odesl·nÌ poûadavku do modulu Zpr·vy
-        [HttpPost("recommendation")]
-        public async Task<IActionResult> SendToZpravyModule([FromBody] StockRequest request)
+        // ‚úÖ 2Ô∏è‚É£ Endpoint: `salestock`
+        [HttpPost("salestock")]
+        public IActionResult SellStock([FromBody] SellStockRequest request)
         {
-            var response = await _stockService.SendToZpravyModuleAsync(request);
-            return Ok(response);
+            var result = _stockService.SellStock(request.Name);
+            return Ok(result);
         }
     }
 }
