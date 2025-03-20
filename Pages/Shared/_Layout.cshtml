@@ -1,0 +1,89 @@
+﻿@* Soubor: Pages/Shared/_Layout.cshtml *@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - STIN Burza</title>
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <!-- Chart.js z CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- FIXNÍ HEADER -->
+    <header class="top-header">
+        <div class="header-left">
+            <button id="toggleSidebarBtn" class="btn-menu">☰</button>
+            <div class="app-logo"><strong>BURZA</strong></div>
+        </div>
+        <div class="user-info">
+            Přihlášený uživatel: <strong>NULL</strong>
+        </div>
+    </header>
+
+    <!-- SIDEBAR (overlay) -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Horní sekce: Filtr akcii -->
+        <div class="sidebar-header">
+            <h2>Filtr akcií</h2>
+            <div class="filter-section">
+                <label for="companySearch">Název firmy...</label>
+                <input type="text" id="companySearch" placeholder="Název firmy..." />
+            </div>
+        </div>
+
+        <!-- Střední sekce: Seznam firem -->
+        <div class="sidebar-body">
+            <div class="scrollable-list" id="companyList">
+
+            </div>
+            <div class="selected-area">
+                <label>Vybrané společnosti:</label>
+                <div id="selectedCompanies" class="selected-companies"></div>
+            </div>
+        </div>
+
+        <!-- Spodní sekce: Dynamicky button-->
+        <div class="sidebar-footer">
+            <div class="add-button-area">
+                <button id="addToGridBtn" class="btn-confirm">Přidat do Gridu</button>
+            </div>
+            <div class="day-range-section">
+                <label>Rozmezí dnů:</label>
+                <div class="range-row">
+                    <select id="dayRange">
+                        <option value="-6">-6</option>
+                        ...
+                        <option value="6">+6</option>
+                    </select>
+                    <button id="sortUpBtn" class="btn-sort" title="Sort Up">
+                        <span class="arrow-up">▲</span>
+                    </button>
+                    <button id="sortDownBtn" class="btn-sort" title="Sort Down">
+                        <span class="arrow-down">▼</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- HLAVNÍ OBSAH -->
+    <main class="main-content">
+        @RenderBody()
+    </main>
+
+    <!-- MODAL pro detail akcie -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content" id="detailModalContent">
+            <span class="modal-close" id="modalCloseBtn">&times;</span>
+            <h3 id="modalTitle">Detail akcie</h3>
+            <p id="modalBody">Zde se zobrazí detailní info...</p>
+        </div>
+    </div>
+
+    <script src="~/js/app.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
