@@ -89,5 +89,9 @@
     "C:\\Users\\qwick\\.nuget\\packages\\system.xml.readerwriter\\4.0.11\\system.xml.readerwriter.4.0.11.nupkg.sha512",
     "C:\\Users\\qwick\\.nuget\\packages\\system.xml.xdocument\\4.0.11\\system.xml.xdocument.4.0.11.nupkg.sha512"
   ],
+  "dgSpecHash": "YUAv19/xoMM=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lukas\\Documents\\STIN-Burza\\STIN-Burza.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

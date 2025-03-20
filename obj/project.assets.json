@@ -4894,35 +4894,44 @@
   },
   "packageFolders": {
     "C:\\Users\\qwick\\.nuget\\packages\\": {},
+    "net9.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    "net9.0": []
+  },
+  "packageFolders": {
+    "C:\\Users\\lukas\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\qwick\\source\\repos\\MarciPhan\\STIN-project-2025\\STIN-Burza.csproj",
+      "projectUniqueName": "C:\\Users\\lukas\\Documents\\STIN-Burza\\STIN-Burza.csproj",
       "projectName": "STIN-Burza",
-      "projectPath": "C:\\Users\\qwick\\source\\repos\\MarciPhan\\STIN-project-2025\\STIN-Burza.csproj",
-      "packagesPath": "C:\\Users\\qwick\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\qwick\\source\\repos\\MarciPhan\\STIN-project-2025\\obj\\",
+      "projectPath": "C:\\Users\\lukas\\Documents\\STIN-Burza\\STIN-Burza.csproj",
+      "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lukas\\Documents\\STIN-Burza\\obj\\",
+      
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\qwick\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lukas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net9.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "projectReferences": {}
         }
       },
@@ -4959,6 +4968,10 @@
             "version": "[8.0.0, )"
           }
         },
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
         "imports": [
           "net461",
           "net462",
@@ -4978,7 +4991,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
