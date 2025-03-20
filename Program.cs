@@ -5,35 +5,24 @@ using STIN_Burza.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Přidání MVC kontrolérů
 builder.Services.AddControllers();
 
-// ✅ Přidání Swaggeru
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient();
+builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<StockService>();
 builder.Services.AddHostedService<BackgroundStockFetcher>();
 
 var app = builder.Build();
 
-// ✅ Povolení Swaggeru i v produkčním režimu
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// ✅ Správné mapování kontrolérů
 app.MapControllers();
-=======
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
