@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -230,10 +229,18 @@ body {
   z-index: 1;
 }
 
+/* GRID pro moduly */
 .modules-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+}
+
+/* Responsivita – menší obrazovky => 1 sloupec */
+@media (max-width: 768px) {
+  .modules-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .module {
@@ -258,7 +265,6 @@ body {
 .module:hover {
   box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
-
 .module-top {
   background: #f9fafb;
   padding: 0.5rem;
@@ -266,7 +272,6 @@ body {
   border-bottom: 1px solid #e5e7eb;
   text-align: center;
 }
-
 .module-middle {
   flex: 1;
   position: relative;
@@ -275,17 +280,25 @@ body {
   align-items: center;
   overflow: hidden;
 }
-.module-middle canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
-
 .module-bottom {
   background: #fafafa;
   padding: 0.5rem;
   border-top: 1px solid #e5e7eb;
   text-align: center;
   font-size: 0.85rem;
+}
+/* Tlačítko "x" pro odstranění modulu */
+.module-remove {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #666;
+  z-index: 10;
+}
+.module-remove:hover {
+  color: #000;
 }
 
 .modal {
