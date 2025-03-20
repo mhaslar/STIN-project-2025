@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "M+LiRcUJDqBK+8/XXj++m48fVE0j8EiTE881+MDzaaI=",
+  "Hash": "JLNPPGokiP+KpqBZ7WvsGGLJa5HjDkc5OecTFUX1Nk8=",
   "Source": "STIN-Burza",
   "BasePath": "_content/STIN-Burza",
   "Mode": "Default",
@@ -248,12 +248,12 @@
       "OriginalItemSpec": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Identity": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-jzsr1d4fsg.gz",
+      "Identity": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-cus3ctvlxu.gz",
       "SourceId": "STIN-Burza",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/STIN-Burza",
-      "RelativePath": "js/app#[.{fingerprint=jzsr1d4fsg}]?.js.gz",
+      "RelativePath": "js/app#[.{fingerprint=cus3ctvlxu}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -262,8 +262,8 @@
       "RelatedAsset": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\js\\app.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "0jmkuqbyfu",
-      "Integrity": "9JrKSBftwIaQeMeu6gSv1gBvikdq/7R2HjjT4twH/to=",
+      "Fingerprint": "7szuund3t8",
+      "Integrity": "pzpXvOOGdTdLiONct3eTuatCoLj7Vs2GiK1FzfmkQlg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\js\\app.js"
@@ -962,12 +962,12 @@
       "OriginalItemSpec": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-04z7gpczer.gz",
+      "Identity": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-k4tmn7pkoo.gz",
       "SourceId": "STIN-Burza",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/STIN-Burza",
-      "RelativePath": "css/styles#[.{fingerprint=04z7gpczer}]?.css.gz",
+      "RelativePath": "css/styles#[.{fingerprint=k4tmn7pkoo}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -976,8 +976,8 @@
       "RelatedAsset": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\css\\styles.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "8c0i3ze9an",
-      "Integrity": "OEHnxqbFBAlXC/rqHFY6NafilV4SWTjASOOYRkSTbS0=",
+      "Fingerprint": "xx9uyy6f47",
+      "Integrity": "1dempzgLkgs+S7BeqlMk4WqkBAfoIetST12t1epsMt8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\css\\styles.css"
@@ -1480,8 +1480,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "04z7gpczer",
-      "Integrity": "gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc=",
+      "Fingerprint": "k4tmn7pkoo",
+      "Integrity": "9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\styles.css"
@@ -1522,8 +1522,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "jzsr1d4fsg",
-      "Integrity": "gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk=",
+      "Fingerprint": "cus3ctvlxu",
+      "Integrity": "PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\app.js"
@@ -3110,13 +3110,13 @@
       ]
     },
     {
-      "Route": "css/styles.04z7gpczer.css",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-04z7gpczer.gz",
+      "Route": "css/styles.css",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-k4tmn7pkoo.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000638977636"
+          "Quality": "0.000581395349"
         }
       ],
       "ResponseHeaders": [
@@ -3126,19 +3126,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1564"
+          "Value": "1719"
         },
         {
           "Name": "ETag",
-          "Value": "\"OEHnxqbFBAlXC/rqHFY6NafilV4SWTjASOOYRkSTbS0=\""
+          "Value": "\"1dempzgLkgs+S7BeqlMk4WqkBAfoIetST12t1epsMt8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 09:00:16 GMT"
+          "Value": "Thu, 20 Mar 2025 12:29:59 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -3154,26 +3154,18 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc=\""
+          "Value": "W/\"9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "04z7gpczer"
-        },
-        {
-          "Name": "label",
-          "Value": "css/styles.css"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc="
+          "Value": "sha256-9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI="
         }
       ]
     },
     {
-      "Route": "css/styles.04z7gpczer.css",
+      "Route": "css/styles.css",
       "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\css\\styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3183,7 +3175,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5790"
+          "Value": "6103"
         },
         {
           "Name": "Content-Type",
@@ -3191,11 +3183,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc=\""
+          "Value": "\"9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 09:00:16 GMT"
+          "Value": "Thu, 20 Mar 2025 12:29:59 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI="
+        }
+      ]
+    },
+    {
+      "Route": "css/styles.css.gz",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-k4tmn7pkoo.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1719"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1dempzgLkgs+S7BeqlMk4WqkBAfoIetST12t1epsMt8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 20 Mar 2025 12:29:59 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-1dempzgLkgs+S7BeqlMk4WqkBAfoIetST12t1epsMt8="
+        }
+      ]
+    },
+    {
+      "Route": "css/styles.k4tmn7pkoo.css",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-k4tmn7pkoo.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000581395349"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1719"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1dempzgLkgs+S7BeqlMk4WqkBAfoIetST12t1epsMt8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 20 Mar 2025 12:29:59 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k4tmn7pkoo"
+        },
+        {
+          "Name": "label",
+          "Value": "css/styles.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI="
+        }
+      ]
+    },
+    {
+      "Route": "css/styles.k4tmn7pkoo.css",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\css\\styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6103"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 20 Mar 2025 12:29:59 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3205,7 +3342,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "04z7gpczer"
+          "Value": "k4tmn7pkoo"
         },
         {
           "Name": "label",
@@ -3213,13 +3350,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc="
+          "Value": "sha256-9L9Vo4dsB0kBFdV3z3UqTTiiMVS4qcocgmeZGp1x6ZI="
         }
       ]
     },
     {
-      "Route": "css/styles.04z7gpczer.css.gz",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-04z7gpczer.gz",
+      "Route": "css/styles.k4tmn7pkoo.css.gz",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-k4tmn7pkoo.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3228,7 +3365,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1564"
+          "Value": "1719"
         },
         {
           "Name": "Content-Type",
@@ -3236,11 +3373,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OEHnxqbFBAlXC/rqHFY6NafilV4SWTjASOOYRkSTbS0=\""
+          "Value": "\"1dempzgLkgs+S7BeqlMk4WqkBAfoIetST12t1epsMt8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 09:00:16 GMT"
+          "Value": "Thu, 20 Mar 2025 12:29:59 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3258,7 +3395,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "04z7gpczer"
+          "Value": "k4tmn7pkoo"
         },
         {
           "Name": "label",
@@ -3266,144 +3403,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-OEHnxqbFBAlXC/rqHFY6NafilV4SWTjASOOYRkSTbS0="
-        }
-      ]
-    },
-    {
-      "Route": "css/styles.css",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-04z7gpczer.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000638977636"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1564"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"OEHnxqbFBAlXC/rqHFY6NafilV4SWTjASOOYRkSTbS0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 09:00:16 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc="
-        }
-      ]
-    },
-    {
-      "Route": "css/styles.css",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\css\\styles.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5790"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 09:00:16 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-gL50vhaZcfLXMCNphpcnGmBKDPwDRfAT+ST35guxGwc="
-        }
-      ]
-    },
-    {
-      "Route": "css/styles.css.gz",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\qwbk6clkyx-04z7gpczer.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1564"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"OEHnxqbFBAlXC/rqHFY6NafilV4SWTjASOOYRkSTbS0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 09:00:16 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-OEHnxqbFBAlXC/rqHFY6NafilV4SWTjASOOYRkSTbS0="
+          "Value": "sha256-1dempzgLkgs+S7BeqlMk4WqkBAfoIetST12t1epsMt8="
         }
       ]
     },
@@ -3706,13 +3706,13 @@
       ]
     },
     {
-      "Route": "js/app.js",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-jzsr1d4fsg.gz",
+      "Route": "js/app.cus3ctvlxu.js",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-cus3ctvlxu.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000378071834"
+          "Quality": "0.000323310702"
         }
       ],
       "ResponseHeaders": [
@@ -3722,19 +3722,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2644"
+          "Value": "3092"
         },
         {
           "Name": "ETag",
-          "Value": "\"9JrKSBftwIaQeMeu6gSv1gBvikdq/7R2HjjT4twH/to=\""
+          "Value": "\"pzpXvOOGdTdLiONct3eTuatCoLj7Vs2GiK1FzfmkQlg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 08:59:42 GMT"
+          "Value": "Thu, 20 Mar 2025 12:30:00 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -3750,18 +3750,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk=\""
+          "Value": "W/\"PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "cus3ctvlxu"
+        },
+        {
+          "Name": "label",
+          "Value": "js/app.js"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk="
+          "Value": "sha256-PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po="
         }
       ]
     },
     {
-      "Route": "js/app.js",
+      "Route": "js/app.cus3ctvlxu.js",
       "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\js\\app.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3771,7 +3779,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8735"
+          "Value": "10046"
         },
         {
           "Name": "Content-Type",
@@ -3779,121 +3787,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk=\""
+          "Value": "\"PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 08:59:42 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk="
-        }
-      ]
-    },
-    {
-      "Route": "js/app.js.gz",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-jzsr1d4fsg.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2644"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"9JrKSBftwIaQeMeu6gSv1gBvikdq/7R2HjjT4twH/to=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 08:59:42 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-9JrKSBftwIaQeMeu6gSv1gBvikdq/7R2HjjT4twH/to="
-        }
-      ]
-    },
-    {
-      "Route": "js/app.jzsr1d4fsg.js",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-jzsr1d4fsg.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000378071834"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2644"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"9JrKSBftwIaQeMeu6gSv1gBvikdq/7R2HjjT4twH/to=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 08:59:42 GMT"
+          "Value": "Thu, 20 Mar 2025 12:30:00 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "jzsr1d4fsg"
+          "Value": "cus3ctvlxu"
         },
         {
           "Name": "label",
@@ -3901,13 +3809,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk="
+          "Value": "sha256-PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po="
         }
       ]
     },
     {
-      "Route": "js/app.jzsr1d4fsg.js",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\js\\app.js",
+      "Route": "js/app.cus3ctvlxu.js.gz",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-cus3ctvlxu.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3916,7 +3824,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8735"
+          "Value": "3092"
         },
         {
           "Name": "Content-Type",
@@ -3924,56 +3832,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk=\""
+          "Value": "\"pzpXvOOGdTdLiONct3eTuatCoLj7Vs2GiK1FzfmkQlg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 08:59:42 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "jzsr1d4fsg"
-        },
-        {
-          "Name": "label",
-          "Value": "js/app.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-gT+arEFYKpXjPEEr90Km+o4Rsx2lwSyALFpJg2BesUk="
-        }
-      ]
-    },
-    {
-      "Route": "js/app.jzsr1d4fsg.js.gz",
-      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-jzsr1d4fsg.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2644"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"9JrKSBftwIaQeMeu6gSv1gBvikdq/7R2HjjT4twH/to=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 20 Mar 2025 08:59:42 GMT"
+          "Value": "Thu, 20 Mar 2025 12:30:00 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3991,7 +3854,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "jzsr1d4fsg"
+          "Value": "cus3ctvlxu"
         },
         {
           "Name": "label",
@@ -3999,7 +3862,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-9JrKSBftwIaQeMeu6gSv1gBvikdq/7R2HjjT4twH/to="
+          "Value": "sha256-pzpXvOOGdTdLiONct3eTuatCoLj7Vs2GiK1FzfmkQlg="
+        }
+      ]
+    },
+    {
+      "Route": "js/app.js",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-cus3ctvlxu.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000323310702"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3092"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"pzpXvOOGdTdLiONct3eTuatCoLj7Vs2GiK1FzfmkQlg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 20 Mar 2025 12:30:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po="
+        }
+      ]
+    },
+    {
+      "Route": "js/app.js",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\wwwroot\\js\\app.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "10046"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 20 Mar 2025 12:30:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PPsttc8O4PKd5iQe+crr3qaGVSuqDuSMxo0Xot3O+po="
+        }
+      ]
+    },
+    {
+      "Route": "js/app.js.gz",
+      "AssetFile": "C:\\Users\\lukas\\STIN_Burza\\STIN-project-2025\\obj\\Debug\\net9.0\\compressed\\749tyxdisw-cus3ctvlxu.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3092"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"pzpXvOOGdTdLiONct3eTuatCoLj7Vs2GiK1FzfmkQlg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 20 Mar 2025 12:30:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-pzpXvOOGdTdLiONct3eTuatCoLj7Vs2GiK1FzfmkQlg="
         }
       ]
     },

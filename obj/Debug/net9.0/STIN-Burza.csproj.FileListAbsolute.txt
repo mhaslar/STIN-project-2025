@@ -118,9 +118,7 @@ C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\scopedcss\Pages\Sha
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\scopedcss\bundle\STIN-Burza.styles.css
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\scopedcss\projectbundle\STIN-Burza.bundle.scp.css
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\2epes69wna-b9sayid5wm.gz
-C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\qwbk6clkyx-04z7gpczer.gz
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\ja0xilm5uz-61n19gt1b8.gz
-C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\749tyxdisw-jzsr1d4fsg.gz
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\8jksozqriz-xtxxf3hu2r.gz
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\e5wmex4lef-bqjiyaj88i.gz
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\8bquw8dnzi-c2jlpeoesf.gz
@@ -197,3 +195,5 @@ C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\refint\STIN-Burza.d
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\STIN-Burza.pdb
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\STIN-Burza.genruntimeconfig.cache
 C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\ref\STIN-Burza.dll
+C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\qwbk6clkyx-k4tmn7pkoo.gz
+C:\Users\lukas\STIN_Burza\STIN-project-2025\obj\Debug\net9.0\compressed\749tyxdisw-cus3ctvlxu.gz

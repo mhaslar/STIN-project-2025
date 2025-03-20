@@ -4,9 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - STIN Burza</title>
+
+    <!-- Základní styly -->
     <link rel="stylesheet" href="~/css/styles.css" />
-    <!-- Chart.js z CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Plotly z CDN (bez bundleru) -->
+    <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
 </head>
 <body>
     <!-- FIXNÍ HEADER -->
@@ -22,7 +25,7 @@
 
     <!-- SIDEBAR (overlay) -->
     <aside class="sidebar" id="sidebar">
-        <!-- Horní sekce: Filtr akcii -->
+        <!-- Horní sekce: Filtr akcií -->
         <div class="sidebar-header">
             <h2>Filtr akcií</h2>
             <div class="filter-section">
@@ -33,16 +36,14 @@
 
         <!-- Střední sekce: Seznam firem -->
         <div class="sidebar-body">
-            <div class="scrollable-list" id="companyList">
-
-            </div>
+            <div class="scrollable-list" id="companyList"></div>
             <div class="selected-area">
                 <label>Vybrané společnosti:</label>
                 <div id="selectedCompanies" class="selected-companies"></div>
             </div>
         </div>
 
-        <!-- Spodní sekce: Dynamicky button-->
+        <!-- Spodní sekce: Dynamický button -->
         <div class="sidebar-footer">
             <div class="add-button-area">
                 <button id="addToGridBtn" class="btn-confirm">Přidat do Gridu</button>
@@ -52,7 +53,17 @@
                 <div class="range-row">
                     <select id="dayRange">
                         <option value="-6">-6</option>
-                        ...
+                        <option value="-5">-5</option>
+                        <option value="-4">-4</option>
+                        <option value="-3">-3</option>
+                        <option value="-2">-2</option>
+                        <option value="-1">-1</option>
+                        <option value="0" selected>0</option>
+                        <option value="1">+1</option>
+                        <option value="2">+2</option>
+                        <option value="3">+3</option>
+                        <option value="4">+4</option>
+                        <option value="5">+5</option>
                         <option value="6">+6</option>
                     </select>
                     <button id="sortUpBtn" class="btn-sort" title="Sort Up">
@@ -83,6 +94,7 @@
         </div>
     </div>
 
+    <!-- Hlavní JS logika (app.js) -->
     <script src="~/js/app.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
