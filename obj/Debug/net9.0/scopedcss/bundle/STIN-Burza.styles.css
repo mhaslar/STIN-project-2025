@@ -1,0 +1,49 @@
+/* _content/STIN-Burza/Pages/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-emew33mc2s] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-emew33mc2s] {
+  color: #0077cc;
+}
+
+.btn-primary[b-emew33mc2s] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-emew33mc2s], .nav-pills .show > .nav-link[b-emew33mc2s] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-emew33mc2s] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-emew33mc2s] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-emew33mc2s] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-emew33mc2s] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-emew33mc2s] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
