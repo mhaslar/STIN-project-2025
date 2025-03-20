@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("STIN-Burza")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+953765b5b4dd44a808fed859e06ac3f990b68493")]
 [assembly: System.Reflection.AssemblyProductAttribute("STIN-Burza")]
 [assembly: System.Reflection.AssemblyTitleAttribute("STIN-Burza")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
