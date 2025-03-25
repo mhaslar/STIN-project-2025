@@ -11,9 +11,6 @@ const modulesData = {};
 let searchResults = [];
 let selectedSet = new Set();
 
-// Odkazy
-const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 
 const companySearch = document.getElementById('companySearch');
@@ -38,23 +35,6 @@ if (darkModeCheckbox) {
   darkModeCheckbox.addEventListener('change', () => {
     document.body.classList.toggle('dark-mode', darkModeCheckbox.checked);
   });
-}
-
-// 1) Otevírání / zavírání sidebaru
-toggleSidebarBtn.addEventListener('click', () => {
-  if (sidebar.classList.contains('open')) closeSidebar();
-  else openSidebar();
-});
-overlay.addEventListener('click', () => {
-  closeSidebar();
-});
-function openSidebar() {
-  sidebar.classList.add('open');
-  overlay.classList.add('open');
-}
-function closeSidebar() {
-  sidebar.classList.remove('open');
-  overlay.classList.remove('open');
 }
 
 // 2) DEBOUNCE vyhledávání + min. počet znaků
@@ -189,6 +169,7 @@ function addModule(symbol) {
     showSelectedCompanies();
   });
 
+  console.log("Přidávám modul", symbol);
   modulesGrid.appendChild(moduleElem);
 
   // Načtení dat z Alphavantage

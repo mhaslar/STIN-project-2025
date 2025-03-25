@@ -1,5 +1,4 @@
-﻿@* Soubor: Pages/Shared/_Layout.cshtml *@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="cs">
 
 <head>
@@ -8,68 +7,151 @@
 
     <!-- Základní styly -->
     <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- Plotly z CDN (bez bundleru) -->
     <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if ("@ViewData["ShowHeader"]" == "True") {
-                document.getElementById('topHeader').innerHTML = `<div class="header-left">
-                    <button id="toggleSidebarBtn" class="btn-menu">☰</button>
-                    <div onclick='window.location.href="/"' class="app-logo"><strong>BURZA</strong></div>
-                </div>
-                <div class="links">
-                    <div onclick='window.location.href="/"' class="header-link link-active">
-                        <strong>Hlavní stránka</strong>
-                    </div>
-                    <div onclick='window.location.href="/swagger"' class="header-link">
-                        <strong>Swagger</strong>
-                    </div>
-                </div>
-                <div class="dark-mode-toggle">
-                    <label class="switch">
-                      <input id="darkModeCheckbox" type="checkbox" />
-                      <span class="slider">
-                        <div class="star star_1"></div>
-                        <div class="star star_2"></div>
-                        <div class="star star_3"></div>
-                        <svg viewBox="0 0 16 16" class="cloud_1 cloud">
-                          <path
-                            transform="matrix(.77976 0 0 .78395-299.99-418.63)"
-                            fill="#fff"
-                            d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925"
-                          ></path>
-                        </svg>
-                      </span>
-                    </label>
-                </div>`;
-            } else {
-                var mainContent = document.getElementsByClassName('main-content')[0];
-                mainContent.style.margin = "0";
-                mainContent.style.padding = "0";
-                document.getElementById('topHeader').style.display = "none";
-            }
-        });
-    </script>
 </head>
 
 <body>
-    <!-- FIXNÍ HEADER -->
-    <header class="top-header" id="topHeader">
-    </header>
+    <!-- SIDEBAR (vždy zobrazený) -->
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="/img/user.png" alt="">
+                </span>
+                <div class="text logo-text">
+                    <span class="name">ACS šampion</span>
+                    <span class="profession">Admin</span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <div class="menu">
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-bar-chart-alt-2 icon'></i>
+                        <span class="text nav-text">Najít firmy</table></span>
+                    </a>
+                </li>
+                <div class="hledaniFirmy">
+                    <li class="search-box">
+                        <i class='bx bx-search icon'></i>
+                        <input id="companySearch" type="text" placeholder="Vyhledat...">
+                    </li>
+                    <div class="sidebar-body">
+                        <div class="scrollable-list" id="companyList"></div>
+                        <div class="selected-area">
+                            <label>Vybrané společnosti:</label>
+                            <div id="selectedCompanies" class="selected-companies"></div>
+                        </div>
+                    </div>
+                    <div class="add-button-area">
+                        <button id="addToGridBtn" class="btn-confirm">Přidat do Gridu</button>
+                    </div>
+                </div>
+                <ul class="menu-links">
+                    <li onclick="window.location.href='/'" class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-home-alt icon'></i>
+                            <span class="text nav-text">Burza</span>
+                        </a>
+                    </li>
+                    <!--<li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-bar-chart-alt-2 icon'></i>
+                            <span class="text nav-text">Revenue</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-bell icon'></i>
+                            <span class="text nav-text">Notifications</span>
+                        </a>
+                    </li>-->
+                    <li onclick="window.location.href='/swagger'" class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-pie-chart-alt icon'></i>
+                            <span class="text nav-text">API</span>
+                        </a>
+                    </li>
+                    <!--
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-heart icon'></i>
+                            <span class="text nav-text">Likes</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-wallet icon'></i>
+                            <span class="text nav-text">Wallets</span>
+                        </a>
+                    </li>-->
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Odhlásit se</span>
+                    </a>
+                </li>
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
 
-    <!-- SIDEBAR (overlay) -->
-    <aside class="sidebar" id="sidebar">
-        <!-- Horní sekce: Filtr akcií -->
+            </div>
+        </div>
+    </nav>
+    <aside style="display: none !important;" class="sidebar open" id="sidebar">
+        <!-- Navigation Section (zděděná funkcionalita z bývalého headeru) -->
+        <div class="sidebar-nav">
+            <div class="nav-top">
+                <button id="toggleSidebarBtn" class="btn-menu">☰</button>
+                <div onclick="window.location.href='/'" class="app-logo"><strong>BURZA</strong></div>
+            </div>
+            <div class="nav-links">
+                <div onclick="window.location.href='/'" class="header-link link-active">
+                    <strong>Hlavní stránka</strong>
+                </div>
+                <div onclick="window.location.href='/swagger'" class="header-link">
+                    <strong>Swagger</strong>
+                </div>
+            </div>
+            <div class="dark-mode-toggle">
+                <label class="switch">
+                    <input id="darkModeCheckbox" type="checkbox" />
+                    <span class="slider">
+                        <div class="star star_1"></div>
+                        <div class="star star_2"></div>
+                        <div class="star star_3"></div>
+                        <!--<svg viewBox="0 0 16 16" class="cloud_1 cloud">
+                            <path transform="matrix(.77976 0 0 .78395-299.99-418.63)" fill="#fff" d="M..."></path>
+                        </svg>-->
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Existující obsah sidebaru -->
         <div class="sidebar-header">
-
             <div class="input-group">
-                <input required="" type="text" name="text" autocomplete="off" class="input" id="companySearch">
+                <input required type="text" name="text" autocomplete="off" class="input" id="companySearch" />
                 <label class="user-label">Stock Search</label>
             </div>
         </div>
 
-        <!-- Střední sekce: Seznam firem -->
         <div class="sidebar-body">
             <div class="scrollable-list" id="companyList"></div>
             <div class="selected-area">
@@ -78,7 +160,6 @@
             </div>
         </div>
 
-        <!-- Spodní sekce: Dynamický button -->
         <div class="sidebar-footer">
             <div class="add-button-area">
                 <button id="addToGridBtn" class="btn-confirm">Přidat do Gridu</button>
@@ -112,23 +193,38 @@
         </div>
     </aside>
 
-    <!-- OVERLAY -->
+    <!-- OVERLAY (může zůstat skrytý) -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- HLAVNÍ OBSAH -->
+    <!-- HLAVNÍ OBSAH (posunutý doprava podle šířky sidebaru) -->
     <main class="main-content">
         @RenderBody()
     </main>
 
-    <!-- MODAL pro detail akcie -->
-    <div class="modal" id="detailModal">
-        <div class="modal-content" id="detailModalContent">
-            <span class="modal-close" id="modalCloseBtn">&times;</span>
-            <h3 id="modalTitle">Detail akcie</h3>
-            <p id="modalBody">Zde se zobrazí detailní info...</p>
-        </div>
-    </div>
+    <script>
+        const body = document.querySelector('body'),
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle"),
+            searchBtn = body.querySelector(".search-box"),
+            modeSwitch = body.querySelector(".toggle-switch"),
+            modeText = body.querySelector(".mode-text");
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        })
+        searchBtn.addEventListener("click", () => {
+            sidebar.classList.remove("close");
+        })
+        modeSwitch.addEventListener("click", () => {
+            body.classList.toggle("dark");
 
+            if (body.classList.contains("dark")) {
+                modeText.innerText = "Light mode";
+            } else {
+                modeText.innerText = "Dark mode";
+
+            }
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var script = document.createElement('script');
