@@ -1,29 +1,44 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using STIN_Burza.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Přidání MVC kontrolérů
 builder.Services.AddControllers();
 
-// ✅ Přidání Swaggeru
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient();
+builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<StockService>();
 builder.Services.AddHostedService<BackgroundStockFetcher>();
 
 var app = builder.Build();
 
-// ✅ Povolení Swaggeru i v produkčním režimu
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// ✅ Správné mapování kontrolérů
 app.MapControllers();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
+app.UseAuthorization();
+
+app.MapStaticAssets();
+app.MapRazorPages()
+   .WithStaticAssets();
 
 app.Run();
