@@ -32,6 +32,14 @@ const modalCloseBtn = document.getElementById('modalCloseBtn');
 const modalTitle = document.getElementById('modalTitle');
 const modalBody = document.getElementById('modalBody');
 
+// === DARK MODE toggle ===
+const darkModeCheckbox = document.getElementById('darkModeCheckbox');
+if (darkModeCheckbox) {
+  darkModeCheckbox.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode', darkModeCheckbox.checked);
+  });
+}
+
 // 1) Otevírání / zavírání sidebaru
 toggleSidebarBtn.addEventListener('click', () => {
   if (sidebar.classList.contains('open')) closeSidebar();
@@ -267,9 +275,12 @@ function renderPlotlyCandlestick(symbol, data) {
   };
 
   const layout = {
-    title: `Svíčkový graf - ${symbol}`,
+    title: `${name} - ${symbol}`,
     dragmode: 'pan',
-    margin: { l: 40, r: 10, t: 40, b: 40 }
+    margin: { l: 40, r: 10, t: 40, b: 40 },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    font: { color: '#999' }
   };
 
   Plotly.newPlot(`plot-${symbol}`, [trace], layout);
