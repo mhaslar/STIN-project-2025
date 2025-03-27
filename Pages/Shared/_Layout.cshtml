@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - STIN Burza</title>
 
-    <!-- Základní styly -->
     <link rel="stylesheet" href="~/css/styles.css" />
     <link rel="stylesheet" href="~/css/sidebar.css" />
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
@@ -15,7 +14,6 @@
 </head>
 
 <body>
-    <!-- SIDEBAR (vždy zobrazený) -->
     <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -31,26 +29,19 @@
         </header>
         <div class="menu-bar">
             <div class="menu">
-                <li class="nav-link">
+                <li onclick="toggleSearch()" class="nav-link">
                     <a href="#">
-                        <i class='bx bx-bar-chart-alt-2 icon'></i>
+                        <i class='bx bx-search icon'></i>
                         <span class="text nav-text">Najít firmy</table></span>
                     </a>
                 </li>
                 <div class="hledaniFirmy">
                     <li class="search-box">
-                        <i class='bx bx-search icon'></i>
+                        <i class='bx icon'></i>
                         <input id="companySearch" type="text" placeholder="Vyhledat...">
                     </li>
                     <div class="sidebar-body">
                         <div class="scrollable-list" id="companyList"></div>
-                        <div class="selected-area">
-                            <label>Vybrané společnosti:</label>
-                            <div id="selectedCompanies" class="selected-companies"></div>
-                        </div>
-                    </div>
-                    <div class="add-button-area">
-                        <button id="addToGridBtn" class="btn-confirm">Přidat do Gridu</button>
                     </div>
                 </div>
                 <ul class="menu-links">
@@ -60,37 +51,12 @@
                             <span class="text nav-text">Burza</span>
                         </a>
                     </li>
-                    <!--<li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-bar-chart-alt-2 icon'></i>
-                            <span class="text nav-text">Revenue</span>
-                        </a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-bell icon'></i>
-                            <span class="text nav-text">Notifications</span>
-                        </a>
-                    </li>-->
                     <li onclick="window.location.href='/swagger'" class="nav-link">
                         <a href="#">
                             <i class='bx bx-pie-chart-alt icon'></i>
                             <span class="text nav-text">API</span>
                         </a>
                     </li>
-                    <!--
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-heart icon'></i>
-                            <span class="text nav-text">Likes</span>
-                        </a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-wallet icon'></i>
-                            <span class="text nav-text">Wallets</span>
-                        </a>
-                    </li>-->
                 </ul>
             </div>
             <div class="bottom-content">
@@ -114,84 +80,6 @@
             </div>
         </div>
     </nav>
-    <aside style="display: none !important;" class="sidebar open" id="sidebar">
-        <!-- Navigation Section (zděděná funkcionalita z bývalého headeru) -->
-        <div class="sidebar-nav">
-            <div class="nav-top">
-                <button id="toggleSidebarBtn" class="btn-menu">☰</button>
-                <div onclick="window.location.href='/'" class="app-logo"><strong>BURZA</strong></div>
-            </div>
-            <div class="nav-links">
-                <div onclick="window.location.href='/'" class="header-link link-active">
-                    <strong>Hlavní stránka</strong>
-                </div>
-                <div onclick="window.location.href='/swagger'" class="header-link">
-                    <strong>Swagger</strong>
-                </div>
-            </div>
-            <div class="dark-mode-toggle">
-                <label class="switch">
-                    <input id="darkModeCheckbox" type="checkbox" />
-                    <span class="slider">
-                        <div class="star star_1"></div>
-                        <div class="star star_2"></div>
-                        <div class="star star_3"></div>
-                        <!--<svg viewBox="0 0 16 16" class="cloud_1 cloud">
-                            <path transform="matrix(.77976 0 0 .78395-299.99-418.63)" fill="#fff" d="M..."></path>
-                        </svg>-->
-                    </span>
-                </label>
-            </div>
-        </div>
-
-        <!-- Existující obsah sidebaru -->
-        <div class="sidebar-header">
-            <div class="input-group">
-                <input required type="text" name="text" autocomplete="off" class="input" id="companySearch" />
-                <label class="user-label">Stock Search</label>
-            </div>
-        </div>
-
-        <div class="sidebar-body">
-            <div class="scrollable-list" id="companyList"></div>
-            <div class="selected-area">
-                <label>Vybrané společnosti:</label>
-                <div id="selectedCompanies" class="selected-companies"></div>
-            </div>
-        </div>
-
-        <div class="sidebar-footer">
-            <div class="add-button-area">
-                <button id="addToGridBtn" class="btn-confirm">Přidat do Gridu</button>
-            </div>
-            <div class="day-range-section">
-                <label>Rozmezí dnů:</label>
-                <div class="range-row">
-                    <select id="dayRange">
-                        <option value="-6">-6</option>
-                        <option value="-5">-5</option>
-                        <option value="-4">-4</option>
-                        <option value="-3">-3</option>
-                        <option value="-2">-2</option>
-                        <option value="-1">-1</option>
-                        <option value="0" selected>0</option>
-                        <option value="1">+1</option>
-                        <option value="2">+2</option>
-                        <option value="3">+3</option>
-                        <option value="4">+4</option>
-                        <option value="5">+5</option>
-                        <option value="6">+6</option>
-                    </select>
-                    <button id="sortUpBtn" class="btn-sort" title="Sort Up">
-                        <span class="arrow-up">▲</span>
-                    </button>
-                    <button id="sortDownBtn" class="btn-sort" title="Sort Down">
-                        <span class="arrow-down">▼</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </aside>
 
     <!-- OVERLAY (může zůstat skrytý) -->
     <div class="overlay" id="overlay"></div>
@@ -210,6 +98,7 @@
             modeText = body.querySelector(".mode-text");
         toggle.addEventListener("click", () => {
             sidebar.classList.toggle("close");
+            closeSearch();
         })
         searchBtn.addEventListener("click", () => {
             sidebar.classList.remove("close");
@@ -231,6 +120,28 @@
             script.src = '/js/app.js';
             document.body.appendChild(script);
         });
+
+        function toggleSearch() {
+            var searchBox = document.querySelector('.hledaniFirmy');
+            if (searchBox.style.maxHeight != "500px") {
+                openSearch();
+                if (sidebar.classList.contains("close")) {
+                    sidebar.classList.remove("close");
+                }
+            } else {
+                closeSearch();
+            }
+        }
+
+        function closeSearch() {
+            var searchBox = document.querySelector('.hledaniFirmy');
+            searchBox.style.maxHeight = "0px";
+        }
+
+        function openSearch() {
+            var searchBox = document.querySelector('.hledaniFirmy');
+            searchBox.style.maxHeight = "500px";
+        }
     </script>
     @RenderSection("Scripts", required: false)
 </body>

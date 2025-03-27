@@ -27,20 +27,108 @@ body {
     transition: var(--tran-05);
 }
 
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
 .main-content {
     margin-top: 60px;
+    padding: 1.5rem;
+    margin-left: 88px;
     padding: 1rem;
-    width: 100%;
+    width: calc(100% - 88px);
     min-height: calc(100vh - 60px);
     overflow: auto;
     position: relative;
     z-index: 1;
 }
 
+/* GRID pro moduly */
 .modules-grid {
+    margin-top: 0.4rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+}
+
+/* Responsivita – menší obrazovky => 1 sloupec */
+@media (max-width: 768px) {
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.module {
+    background: var(--primary-color-light);
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.95);
+    animation: moduleIn 0.3s forwards;
+    position: relative;
+
+}
+
+@keyframes moduleIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.module-top {
+    background: var(--primary-color);
+    color: var(--toggle-color);
+    padding: 0.5rem;
+    font-weight: bold;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+
+}
+
+.module-middle {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.module-bottom {
+    background: #fafafa;
+    padding: 0.5rem;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+/* Tlačítko "x" pro odstranění modulu */
+.module-remove {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--toggle-color);
+    z-index: 10;
+}
+
+.module-remove:hover {
+    color: #000;
+}
+
+.hledaniFirmy {
+    transition: all 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
 }
 
 ::selection {
@@ -346,4 +434,9 @@ body.dark .switch::before {
 
 body.dark .home .text {
     color: var(--text-color);
+}
+
+body.dark .module-bottom {
+    background: #3a3b3c;
+    color: white;
 }

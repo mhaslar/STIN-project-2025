@@ -87,14 +87,7 @@ function renderCompanyList() {
       li.classList.add('selected');
     }
     li.addEventListener('click', () => {
-      if (li.classList.contains('selected')) {
-        li.classList.remove('selected');
-        selectedSet.delete(symbol);
-      } else {
-        li.classList.add('selected');
-        selectedSet.add(symbol);
-      }
-      showSelectedCompanies();
+      addModule(symbol);
     });
     companyList.appendChild(li);
   });
