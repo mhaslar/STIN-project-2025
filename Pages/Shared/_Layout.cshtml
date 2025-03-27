@@ -32,7 +32,7 @@
                 <li onclick="toggleSearch()" class="nav-link">
                     <a href="#">
                         <i class='bx bx-search icon'></i>
-                        <span class="text nav-text">Najít firmy</table></span>
+                        <span class="text nav-text">Najít firmy</span>
                     </a>
                 </li>
                 <div class="hledaniFirmy">
@@ -123,7 +123,7 @@
 
         function toggleSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
-            if (searchBox.style.maxHeight != "500px") {
+            if (!searchBox.classList.contains("open")) {
                 openSearch();
                 if (sidebar.classList.contains("close")) {
                     sidebar.classList.remove("close");
@@ -135,12 +135,12 @@
 
         function closeSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
-            searchBox.style.maxHeight = "0px";
+            searchBox.classList.remove("open");
         }
 
         function openSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
-            searchBox.style.maxHeight = "500px";
+            searchBox.classList.add("open");
         }
     </script>
     @RenderSection("Scripts", required: false)
