@@ -123,7 +123,7 @@
 
         function toggleSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
-            if (!searchBox.classList.contains("open")) {
+            if (searchBox.style.maxHeight != "200px") {
                 openSearch();
                 if (sidebar.classList.contains("close")) {
                     sidebar.classList.remove("close");
@@ -135,12 +135,12 @@
 
         function closeSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
-            searchBox.classList.remove("open");
+            searchBox.style.maxHeight = "0px";
         }
 
         function openSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
-            searchBox.classList.add("open");
+            searchBox.style.maxHeight = "200px";
         }
     </script>
     @RenderSection("Scripts", required: false)
