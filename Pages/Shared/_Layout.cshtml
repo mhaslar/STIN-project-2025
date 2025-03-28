@@ -14,6 +14,13 @@
 </head>
 
 <body>
+
+    <script>
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark');
+      }
+    </script>
+
     <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -100,19 +107,31 @@
             sidebar.classList.toggle("close");
             closeSearch();
         })
+        
         searchBtn.addEventListener("click", () => {
             sidebar.classList.remove("close");
         })
+
         modeSwitch.addEventListener("click", () => {
             body.classList.toggle("dark");
 
             if (body.classList.contains("dark")) {
+                localStorage.setItem('darkMode', 'true');
                 modeText.innerText = "Light mode";
             } else {
+                localStorage.setItem('darkMode', 'false');
                 modeText.innerText = "Dark mode";
 
             }
         });
+
+        const mainContent = document.querySelector('.main-content');
+        mainContent.addEventListener('click', () => {
+            if(!sidebar.classList.contains('close')){
+                sidebar.classList.add('close');
+            }
+            closeSearch();
+        })
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
