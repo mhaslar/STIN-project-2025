@@ -17,7 +17,7 @@ namespace STIN_Burza.Controllers
             _stockService = stockService;
         }
 
-        // ✅ 1️⃣ Endpoint: `liststock`
+        // Endpoint: `liststock`
         [HttpGet("liststock")]
         public IActionResult ListStocks()
         {
@@ -25,12 +25,22 @@ namespace STIN_Burza.Controllers
             return Ok(stocks);
         }
 
-        // ✅ 2️⃣ Endpoint: `salestock`
+        //  Endpoint: `salestock`
         [HttpPost("salestock")]
         public IActionResult SellStock([FromBody] SellStockRequest request)
         {
             var result = _stockService.SellStock(request.Name);
             return Ok(result);
+        }
+
+        // Endpoint: `getrating` (napojení na vzdálené zprávy API)
+        [HttpPost("getrating")]
+        public async Task<IActionResult> GetRatingsFromZpravy([FromBody] StockRequest request)
+        {
+            var response = await _stockService.GetRatingsFromZpravyAsync(request);
+            if (response == null)
+                return StatusCode(500, "Nepodařilo se načíst data z externího API.");
+            return Ok(response);
         }
     }
 }
