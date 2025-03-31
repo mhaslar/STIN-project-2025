@@ -2,18 +2,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace STIN_project_2025.Controllers
 {
+    [ApiController]
+    [Route("Error")]
     public class ErrorController : Controller
     {
-        [Route("Error/{code}")]
+        [HttpGet("{code}")]
         public IActionResult HandleErrorCode(int code)
         {
             if (code == 404)
             {
-                // Vracíme view z umístění Pages/Error/NotFound.cshtml
+                // Pokud používáš Razor Pages, cesta musí být správně relativní
                 return View("~/Pages/Error/NotFound.cshtml");
             }
-            // Pro ostatní kódy můžete vytvořit obecné zpracování chyby
-            return View("Error");
+
+            return View("~/Pages/Error/GenericError.cshtml"); // nebo jen "Error" pokud máš Views/Error/Error.cshtml
         }
     }
 }
