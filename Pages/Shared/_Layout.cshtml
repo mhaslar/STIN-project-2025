@@ -1,20 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="cs">
-
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - STIN Burza</title>
-
     <link rel="stylesheet" href="~/css/styles.css" />
-    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <!-- <link rel="stylesheet" href="~/css/sidebar.css" /> -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-
     <!-- Plotly z CDN (bez bundleru) -->
     <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
 </head>
-
 <body>
-
     <script>
       if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark');
@@ -65,6 +60,31 @@
                         </a>
                     </li>
                 </ul>
+
+                <li onclick="toggleExtra()" class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-cog icon'></i>
+                        <span class="text nav-text">Sentiment</span>
+                    </a>
+                </li>
+                <div class="extraFunkce">
+                    <div class="btns-container vertical">
+                        <button id="btnGrow" class="btn-extra">
+                            <i class="bx bx-chevron-up"></i> Růst ceny
+                        </button>
+                        <button id="btnDrop" class="btn-extra">
+                            <i class="bx bx-chevron-down"></i> Pokles ceny
+                        </button>
+                    </div>
+                    <select id="selectExtra" class="select-extra">
+                        <option value="1">1</option>
+                        <option value="2">3</option>
+                        <option value="3">5</option>
+                    </select>
+                </div>
+
+                <!-- Tlačítko pro ovládání info panelu -->
+                <button id="toggleInfoBtn" onclick="toggleWaveDropdown()">Zobrazit / Skrýt info</button>
             </div>
             <div class="bottom-content">
                 <li class="">
@@ -83,15 +103,42 @@
                         <span class="switch"></span>
                     </div>
                 </li>
-
             </div>
         </div>
     </nav>
 
-    <!-- OVERLAY (může zůstat skrytý) -->
-    <div class="overlay" id="overlay"></div>
+    <!-- Wave dropdown s info panelem -->
+    <div id="waveDropdown" class="wave-dropdown">
+        <!-- Tilt divider přes celou šířku -->
+        <div class="custom-shape-divider-top-1744371488">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" class="shape-fill"></path>
+            </svg>
+        </div>
+        <!-- Vycentrovaný panel s daty -->
+        <div class="data-panel-wrapper">
+            <div class="data-panel">
+                <div class="panel-row">
+                    <span class="panel-label">Odeslané informace:</span>
+                    <span id="panelCompanies" class="panel-value">—</span>
+                </div>
+                <div class="panel-row">
+                    <span class="panel-label">Sentiment:</span>
+                    <span id="panelSentiment" class="panel-value">—</span>
+                </div>
+                <div class="panel-row">
+                    <span class="panel-label">Volba:</span>
+                    <span id="panelOption" class="panel-value">—</span>
+                </div>
+                <div class="panel-row">
+                    <span class="panel-label">Další data:</span>
+                    <span id="panelOther" class="panel-value">—</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- HLAVNÍ OBSAH (posunutý doprava podle šířky sidebaru) -->
+    <!-- HLAVNÍ OBSAH (Grafy s daty) -->
     <main class="main-content">
         @RenderBody()
     </main>
@@ -106,32 +153,29 @@
         toggle.addEventListener("click", () => {
             sidebar.classList.toggle("close");
             closeSearch();
-        })
-        
+            closeExtra();
+        });
         searchBtn.addEventListener("click", () => {
             sidebar.classList.remove("close");
-        })
-
+        });
         modeSwitch.addEventListener("click", () => {
             body.classList.toggle("dark");
-
             if (body.classList.contains("dark")) {
                 localStorage.setItem('darkMode', 'true');
                 modeText.innerText = "Light mode";
             } else {
                 localStorage.setItem('darkMode', 'false');
                 modeText.innerText = "Dark mode";
-
             }
         });
-
         const mainContent = document.querySelector('.main-content');
         mainContent.addEventListener('click', () => {
             if(!sidebar.classList.contains('close')){
                 sidebar.classList.add('close');
             }
             closeSearch();
-        })
+            closeExtra();
+        });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -151,18 +195,52 @@
                 closeSearch();
             }
         }
-
         function closeSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
             searchBox.style.maxHeight = "0px";
         }
-
         function openSearch() {
             var searchBox = document.querySelector('.hledaniFirmy');
             searchBox.style.maxHeight = "200px";
         }
     </script>
+    <script>
+        function toggleExtra() {
+            var extraFunkce = document.querySelector('.extraFunkce');
+            if (extraFunkce.style.maxHeight !== "150px") {
+                openExtra();
+                if (sidebar.classList.contains("close")) {
+                    sidebar.classList.remove("close");
+                }
+            } else {
+                closeExtra();
+            }
+        }
+        function openExtra() {
+            var extraFunkce = document.querySelector('.extraFunkce');
+            extraFunkce.style.maxHeight = "150px"; 
+        }
+        function closeExtra() {
+            var extraFunkce = document.querySelector('.extraFunkce');
+            extraFunkce.style.maxHeight = "0px";
+        }
+    </script>
+    <script>
+        // Tahání dat,# bereme JSON z backendu a parsujeme si ho sami a zobrazujeme na frontnedu (Zobrazíme co posíláme)
+        function toggleWaveDropdown() {
+            const waveDropdown = document.getElementById("waveDropdown");
+            waveDropdown.classList.toggle("open");
+        }
+        function updateDataPanel(jsonDataString) {
+            const data = JSON.parse(jsonDataString);
+            document.getElementById('panelCompanies').innerText = data.companies.join(', ');
+            document.getElementById('panelSentiment').innerText = data.sentiment;
+            document.getElementById('panelOption').innerText = data.option;
+            document.getElementById('panelOther').innerText = data.other;
+        }
+        const sampleJSON = '{"companies": ["ACME", "Globex", "Innotech"], "sentiment": "Růst ceny", "option": "1", "other": "Nějaké info"}';
+        updateDataPanel(sampleJSON);
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
-
 </html>
