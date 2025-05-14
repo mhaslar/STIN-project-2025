@@ -341,6 +341,7 @@ function CallListStockAPI() {
     body: JSON.stringify(payload)
   })
   .then(resp => {
+    console.log('Adresa API:', resp.url);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     return resp.json();
   })
