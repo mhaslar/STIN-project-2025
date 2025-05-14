@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using STIN_Burza.Models;
 using STIN_Burza.Services;
-using System.Collections.Generic;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace STIN_Burza.Controllers
 {
@@ -24,90 +24,79 @@ namespace STIN_Burza.Controllers
             _stockService = stockService;
         }
 
-
         // Endpoint: `liststock`
         [HttpPost("liststock")]
         public async Task<IActionResult> PostListStock([FromBody] JsonElement payload)
         {
-            // Získání JSON payloadu jako string.
-            // Pokud je 'payload' typu JsonElement (System.Text.Json) nebo JObject (Newtonsoft.Json)
-            // z deserializace [FromBody], pak payload.ToString() by měl vrátit JSON řetězec.
-            // Pokud je 'payload' jiný typ C# objektu, payload.ToString() nemusí vrátit validní JSON
-            // a bylo by potřeba explicitní serializace (např. System.Text.Json.JsonSerializer.Serialize(payload)).
-            // Vycházíme z předpokladu, že payload.ToString() poskytne očekávaný JSON, jak naznačoval původní kód.
+            // 1) Získání JSON payloadu jako string
             string jsonPayloadToSend = payload.ToString() ?? "{}";
-
-            Console.WriteLine($"Volání externího API burzy. Přijatý payload (po ToString()): {jsonPayloadToSend} (BurzaController.cs)");
-            System.Diagnostics.Debug.WriteLine($"Volání externího API burzy. Přijatý payload (po ToString()): {jsonPayloadToSend} (BurzaController.cs)");
+            Console.WriteLine($"Volání externího API burzy. Payload: {jsonPayloadToSend}");
+            System.Diagnostics.Debug.WriteLine($"Volání externího API burzy. Payload: {jsonPayloadToSend}");
 
             if (string.IsNullOrEmpty(jsonPayloadToSend))
             {
-                System.Diagnostics.Debug.WriteLine("Payload pro externí API je prázdný nebo null po ToString(). (BurzaController.cs)");
-                return BadRequest("Tělo požadavku (payload) je prázdné nebo se nepodařilo ho převést na řetězec.");
+                System.Diagnostics.Debug.WriteLine("Prázdný payload.");
+                return BadRequest("Tělo požadavku je prázdné.");
             }
 
-            // Cílová URL adresa pro externí API (z curl příkazu)
+            // 2) Příprava requestu na externí API
             string externalApiUrl = "https://novinky.zumepro.cz:8000/api/liststock";
-
-            // Přihlašovací údaje pro Basic Auth
             string userName = "burza";
-            // Toto heslo by mělo být ideálně uloženo bezpečně, např. v konfiguraci (appsettings.json) a načítáno přes IConfiguration
             string password = "velmitajneheslo";
 
-            // Vytvoření HttpRequestMessage
-            var request = new HttpRequestMessage(HttpMethod.Post, externalApiUrl);
+            var request = new HttpRequestMessage(HttpMethod.Post, externalApiUrl)
+            {
+                Headers =
+                {
+                    ExpectContinue = false,
+                    Authorization = new AuthenticationHeaderValue(
+                        "Basic",
+                        Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}"))
+                    )
+                }
+            };
 
-            // Zakázání hlavičky "Expect: 100-continue"
-            // Některé servery mohou mít problém se správným zpracováním této hlavičky
-            // a může to vést k problémům s rozpoznáním Content-Type.
-            request.Headers.ExpectContinue = false;
+            // Explicitní Content-Type application/json (bez charset)
+            var content = new StringContent(jsonPayloadToSend, Encoding.UTF8);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            request.Content = content;
 
-            // Nastavení obsahu požadavku (JSON payload)
-            request.Content = new StringContent(jsonPayloadToSend, Encoding.UTF8, "application/json");
+            // Přidat Accept: application/json
+            request.Headers.Accept.Clear();
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            // Vytvoření a přidání Authorization hlavičky pro Basic Auth
-            string credentials = $"{userName}:{password}";
-            byte[] credentialsBytes = Encoding.UTF8.GetBytes(credentials);
-            string base64Credentials = Convert.ToBase64String(credentialsBytes);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", base64Credentials);
-
-            Console.WriteLine($"Odesílám požadavek na externí burzu: Method={request.Method}, Uri={request.RequestUri}, ExpectContinue={request.Headers.ExpectContinue} (BurzaController.cs)");
-            System.Diagnostics.Debug.WriteLine($"Odesílám požadavek na externí burzu: Method={request.Method}, Uri={request.RequestUri}, ExpectContinue={request.Headers.ExpectContinue} (BurzaController.cs)");
-            Console.WriteLine($"JSON Payload odesílaný na externí burzu: {jsonPayloadToSend} (BurzaController.cs)");
-            System.Diagnostics.Debug.WriteLine($"JSON Payload odesílaný na externí burzu: {jsonPayloadToSend}");
+            Console.WriteLine($"Odesílám na externí burzu: {request.Method} {request.RequestUri}");
+            System.Diagnostics.Debug.WriteLine($"Payload: {jsonPayloadToSend}");
 
             try
             {
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
                 string responseContent = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine($"Odpověď z externí burzy: StatusCode={(int)response.StatusCode} ({response.ReasonPhrase}), Content='{responseContent}' (BurzaController.cs)");
-                System.Diagnostics.Debug.WriteLine($"Odpověď z externí burzy: StatusCode={(int)response.StatusCode} ({response.ReasonPhrase}), Content='{responseContent}' (BurzaController.cs)");
+                Console.WriteLine($"Odpověď z burzy: {(int)response.StatusCode} {response.ReasonPhrase}: {responseContent}");
+                System.Diagnostics.Debug.WriteLine($"Odpověď z burzy: {responseContent}");
 
-                return new ContentResult
-                {
-                    Content = responseContent,
-                    ContentType = response.Content.Headers.ContentType?.ToString() ?? "application/json", // Zachováme ContentType z odpovědi
-                    StatusCode = (int)response.StatusCode
-                };
+                // === ZDE VRACÍME PLATNÝ JSON MÍSTO POUHÉHO ŘETĚZCE ===
+                // Obalíme odpověď do objektu, aby klient mohl volat resp.json() bez chyby
+                return Ok(new { status = responseContent });
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine($"HttpRequestException při volání externí burzy: {ex.Message}{(ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")} (BurzaController.cs)");
-                System.Diagnostics.Debug.WriteLine($"HttpRequestException při volání externí burzy: {ex.Message}{(ex.InnerException != null ? " | InnerException: " + ex.InnerException.Message : "")} (BurzaController.cs)");
-                // V produkčním prostředí by zde mělo být robustnější logování.
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, $"Chyba při komunikaci s externí službou burzy: {ex.Message}");
+                Console.WriteLine($"HttpRequestException: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"HttpRequestException: {ex.Message}");
+                return StatusCode(StatusCodes.Status503ServiceUnavailable,
+                    $"Chyba při komunikaci s externí službou burzy: {ex.Message}");
             }
-            catch (Exception ex) // Zachycení jakýchkoliv dalších neočekávaných chyb
+            catch (Exception ex)
             {
-                Console.WriteLine($"Neočekávaná chyba při volání externí burzy: {ex.Message} (BurzaController.cs)");
-                System.Diagnostics.Debug.WriteLine($"Neočekávaná chyba při volání externí burzy: {ex.Message} (BurzaController.cs)");
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Interní chyba serveru při zpracování požadavku na burzu: {ex.Message}");
+                Console.WriteLine($"Neočekávaná chyba: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Neočekávaná chyba: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Interní chyba serveru: {ex.Message}");
             }
         }
 
-
-        //  Endpoint: `salestock`
+        // Endpoint: `salestock`
         [HttpPost("salestock")]
         public IActionResult SellStock([FromBody] SellStockRequest request)
         {
@@ -115,7 +104,7 @@ namespace STIN_Burza.Controllers
             return Ok(result);
         }
 
-        // Endpoint: `getrating` (napojení na vzdálené zprávy API)
+        // Endpoint: `getrating`
         [HttpPost("getrating")]
         public async Task<IActionResult> GetRatingsFromZpravy([FromBody] StockRequest request)
         {

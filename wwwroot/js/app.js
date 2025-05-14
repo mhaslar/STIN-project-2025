@@ -293,60 +293,49 @@ function updateStockInfo(symbol, data) {
 }
 
 // 14) Filtr pro API
-// —––––––––––––––––––––––––––––––––––––––––––––––––
-// 1) Pomocná funkce: ISO string bez ms s +00:00
 function toISOStringNoMs(dt) {
   return dt.toISOString().split('.')[0] + '+00:00';
 }
 
-// 2) Funkce, která vrátí pole tickerů a počet dní
+// 2) Sestaví JSON podle modulů
 function filterCompanies() {
   const modules = document.getElementsByClassName('module');
   const nazvyFirem = [];
   for (const mod of modules) {
     nazvyFirem.push(mod.id.replace('mod-', ''));
   }
-  return JSON.stringify({
-    stocks: nazvyFirem,
-    type: 3
-  });
+  // případně sem místo pevného `type:3` dejte svůj selectExtra.value
+  return JSON.stringify({ stocks: nazvyFirem, type: 3 });
 }
 
-// 3) Funkce volaná přímo z inline onclick
+// 3) Tohle zavolá přímo inline onclick – **žádné další addEventListenery zde**
 function CallListStockAPI() {
-  // Rozparsujeme data od filterCompanies()
+  // a) rozparsovat
   const { stocks, type } = JSON.parse(filterCompanies());
   console.log('Vybrané akcie:', stocks, 'typ:', type);
 
-  // Spočítáme timestampy
-  const now = new Date();
+  // b) timestampy
+  const now       = new Date();
   const timestamp = toISOStringNoMs(now);
-  const date_from = toISOStringNoMs(
-    new Date(now.getTime() - type * 24 * 60 * 60 * 1000)
-  );
-  const date_to = timestamp;
+  const date_from = toISOStringNoMs(new Date(now.getTime() - type * 24*60*60*1000));
+  const date_to   = timestamp;
 
-  // Sestavíme payload
+  // c) payload
   const payload = {
     timestamp,
     date_from,
     date_to,
-    stocks: stocks.map(name => ({
-      name,
-      rating: null,
-      sell:   null
-    }))
+    stocks: stocks.map(name => ({ name, rating: null, sell: null }))
   };
 
-  // Debug: vypíšeme si payload do konzole
   console.log('Odesílám payload:', payload);
   console.log('JSON.stringify:', JSON.stringify(payload, null, 2));
 
-  // Odešleme na API
-  fetch('https://novinky.zumepro.cz:8000/api/', {
+  // d) fetch na proxy endpoint
+  fetch('/api/burza/liststock', {
     method: 'POST',
     headers: {
-      'burza': 'velmitajneheslo',
+      burza: 'velmitajneheslo',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(payload)
@@ -364,7 +353,6 @@ function CallListStockAPI() {
     alert('Nepodařilo se odeslat testovací data.');
   });
 }
-
 
 if (!sendToApiBtn) {
     console.error("sendToApiBtn Není!");
