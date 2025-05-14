@@ -341,41 +341,19 @@ sendToApiBtn.addEventListener('click', () => {
 });
 
 function filterCompanies(companies, type) {
-  const modules = Array.from(document.querySelectorAll('#modulesGrid .module'));
-  const symbols = modules.map(m => m.id.replace('mod-', ''));
-
-  const filtered = [];
-
-  for (const symbol of symbols) {
-    const data = fetchStockData(symbol);
-    const series = data["Time Series (Daily)"];
-    if (!series) continue;
-
-    const dates = Object.keys(series).sort();
-    const last5 = dates.slice(-5);
-    const closes = last5.map(d => parseFloat(series[d]["4. close"]));
-
-    let threeDayDecline = true;
-    for (let i = closes.length - 3; i < closes.length - 1; i++) {
-      if (closes[i] <= closes[i + 1]) {
-        threeDayDecline = false;
-        break;
-      }
-    }
-
-    const totalDeclines = closes.reduce((cnt, cur, idx, arr) => {
-      return idx > 0 && cur < arr[idx - 1] ? cnt + 1 : cnt;
-    }, 0);
-
-    if (type === 3 && threeDayDecline) {
-      filtered.push(symbol);
-    } else if (type === 5 && totalDeclines >= 2) {
-      filtered.push(symbol);
-    }
+  const modules = document.getElementsByClassName('module');
+  var nazvyFirem = [];
+  
+  for (const mod of modules) {
+    const symbol = mod.id.replace('mod-', '');
+    const name = symbol;
+    nazvyFirem.push(name);
   }
 
+  
+
   return JSON.stringify({
-    stocks: filtered,
+    stocks: nazvyFirem,
     type: type
   });
 }
