@@ -1,3 +1,4 @@
+// app.js
 console.log("app.js načten!");
 
 // 1) searchCache[query] => pole "bestMatches" z SYMBOL_SEARCH
@@ -11,23 +12,23 @@ const modulesData = {};
 let searchResults = [];
 let selectedSet = new Set();
 
-const overlay = document.getElementById('overlay');
+const overlay               = document.getElementById('overlay');
+const companySearch         = document.getElementById('companySearch');
+const companyList           = document.getElementById('companyList');
+const selectedCompaniesDiv  = document.getElementById('selectedCompanies');
+const addToGridBtn          = document.getElementById('addToGridBtn');
+const modulesGrid           = document.getElementById('modulesGrid');
+const sendToApiBtn          = document.getElementById('sendToApiBtn');
 
-const companySearch = document.getElementById('companySearch');
-const companyList = document.getElementById('companyList');
-const selectedCompaniesDiv = document.getElementById('selectedCompanies');
-const addToGridBtn = document.getElementById('addToGridBtn');
-const modulesGrid = document.getElementById('modulesGrid');
-
-const dayRange = document.getElementById('dayRange');
-const sortUpBtn = document.getElementById('sortUpBtn');
-const sortDownBtn = document.getElementById('sortDownBtn');
+const dayRange              = document.getElementById('dayRange');
+const sortUpBtn             = document.getElementById('sortUpBtn');
+const sortDownBtn           = document.getElementById('sortDownBtn');
 
 // Modal
-const detailModal = document.getElementById('detailModal');
+const detailModal   = document.getElementById('detailModal');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
-const modalTitle = document.getElementById('modalTitle');
-const modalBody = document.getElementById('modalBody');
+const modalTitle    = document.getElementById('modalTitle');
+const modalBody     = document.getElementById('modalBody');
 
 // === DARK MODE toggle ===
 const darkModeCheckbox = document.getElementById('darkModeCheckbox');
@@ -87,7 +88,9 @@ function renderCompanyList() {
       li.classList.add('selected');
     }
     li.addEventListener('click', () => {
+      selectedSet.add(symbol);
       addModule(symbol);
+      showSelectedCompanies();
     });
     companyList.appendChild(li);
   });
@@ -113,6 +116,8 @@ function showSelectedCompanies() {
       showSelectedCompanies();
       const li = companyList.querySelector(`li[data-symbol="${symbol}"]`);
       if (li) li.classList.remove('selected');
+      const mod = document.getElementById(`mod-${symbol}`);
+      if (mod) mod.remove();
     });
 
     chip.appendChild(closeSpan);
@@ -130,8 +135,8 @@ function addModule(symbol) {
   const moduleElem = document.createElement('article');
   moduleElem.classList.add('module');
   moduleElem.id = 'mod-' + symbol;
+  moduleElem.dataset.name = name;
 
-  // Button "x" pro odstranění z gridu
   moduleElem.innerHTML = `
     <div class="module-remove" title="Odstranit modul">×</div>
     <div class="module-top">
@@ -168,7 +173,7 @@ function addModule(symbol) {
   // Načtení dat z Alphavantage
   fetchStockData(symbol)
     .then(data => {
-      renderPlotlyCandlestick(symbol, data);
+      renderPlotlyCandlestick(symbol, data, name);
       updateStockInfo(symbol, data);
     })
     .catch(err => {
@@ -215,7 +220,7 @@ function fetchStockData(symbol) {
 }
 
 // 9) Plotly Candlestick
-function renderPlotlyCandlestick(symbol, data) {
+function renderPlotlyCandlestick(symbol, data, name) {
   const series = data["Time Series (Daily)"];
   if (!series) {
     console.error("Chybná data pro", symbol, data);
@@ -305,3 +310,36 @@ sortUpBtn.addEventListener('click', () => {
 sortDownBtn.addEventListener('click', () => {
   console.log("Sort Down, range =", dayRange.value);
 });
+
+// 13) Odeslání modulů na API
+sendToApiBtn.addEventListener('click', () => {
+  const modules = document.querySelectorAll('#modulesGrid .module');
+  const payload = Array.from(modules).map(mod => ({
+    name:   mod.dataset.name,
+    date:   Math.floor(Date.now() / 1000),
+    rating: null,
+    sell:   null
+  }));
+
+  fetch('https://vase.api.endpoint/submitCompanies', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload)
+  })
+  .then(resp => {
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+  })
+  .then(data => {
+    console.log('API odpověď:', data);
+    alert('Data odeslána!');
+  })
+  .catch(err => {
+    console.error('Chyba při odesílání:', err);
+    alert('Nepodařilo se odeslat data.');
+  });
+});
+
+function CallListStockAPI(){
+
+}
