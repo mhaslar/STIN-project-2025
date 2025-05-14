@@ -1,4 +1,3 @@
-// app.js
 console.log("app.js načten!");
 
 // 1) searchCache[query] => pole "bestMatches" z SYMBOL_SEARCH
@@ -293,54 +292,78 @@ function updateStockInfo(symbol, data) {
   }
 }
 
-
-
 // 14) Filtr pro API
+// —––––––––––––––––––––––––––––––––––––––––––––––––
+// 1) Pomocná funkce: ISO string bez ms s +00:00
+function toISOStringNoMs(dt) {
+  return dt.toISOString().split('.')[0] + '+00:00';
+}
+
+// 2) Funkce, která vrátí pole tickerů a počet dní
 function filterCompanies() {
   const modules = document.getElementsByClassName('module');
-  var nazvyFirem = [];
-  
+  const nazvyFirem = [];
   for (const mod of modules) {
-    const symbol = mod.id.replace('mod-', '');
-    const name = symbol;
-    nazvyFirem.push(name);
+    nazvyFirem.push(mod.id.replace('mod-', ''));
   }
-
-  
-
   return JSON.stringify({
     stocks: nazvyFirem,
     type: 3
   });
 }
 
+// 3) Funkce volaná přímo z inline onclick
 function CallListStockAPI() {
-  function toISOStringNoMs(dt) {
-    return dt.toISOString().split(".")[0] + "+00:00";
-  }
-    sendToApiBtn.addEventListener("click", () => {
-      // 1) Zavoláme filterCompanies
-      const { stocks, type } = JSON.parse(filterCompanies());
-      console.log("Vybrané akcie:", stocks, "typ:", type);
+  // Rozparsujeme data od filterCompanies()
+  const { stocks, type } = JSON.parse(filterCompanies());
+  console.log('Vybrané akcie:', stocks, 'typ:', type);
 
-      // 2) Spočítáme časy
-      const now = new Date();
-      const timestamp = toISOStringNoMs(now);
-      const dateFromDt = new Date(now.getTime() - type * 24 * 60 * 60 * 1000);
-      const date_from = toISOStringNoMs(dateFromDt);
-      const date_to = timestamp;
+  // Spočítáme timestampy
+  const now = new Date();
+  const timestamp = toISOStringNoMs(now);
+  const date_from = toISOStringNoMs(
+    new Date(now.getTime() - type * 24 * 60 * 60 * 1000)
+  );
+  const date_to = timestamp;
 
-      // 3) Sestavíme payload
-      const payload = {
-        timestamp,
-        date_from,
-        date_to,
-        stocks: stocks.map((name) => ({
-          name,
-          rating: null,
-          sell: null,
-        })),
-      };
+  // Sestavíme payload
+  const payload = {
+    timestamp,
+    date_from,
+    date_to,
+    stocks: stocks.map(name => ({
+      name,
+      rating: null,
+      sell:   null
+    }))
+  };
+
+  // Debug: vypíšeme si payload do konzole
+  console.log('Odesílám payload:', payload);
+  console.log('JSON.stringify:', JSON.stringify(payload, null, 2));
+
+  // Odešleme na API
+  fetch('https://novinky.zumepro.cz:8000/api/', {
+    method: 'POST',
+    headers: {
+      'burza': 'velmitajneheslo',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(resp => {
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+  })
+  .then(data => {
+    console.log('API odpověď:', data);
+    alert('Testovací data úspěšně odeslána!');
+  })
+  .catch(err => {
+    console.error('Chyba při odesílání:', err);
+    alert('Nepodařilo se odeslat testovací data.');
+  });
+}
 
       console.log("Odesílám payload:", payload);
       console.log("JSON.stringify:", JSON.stringify(payload, null, 2));
