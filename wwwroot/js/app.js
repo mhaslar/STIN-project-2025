@@ -296,7 +296,7 @@ function updateStockInfo(symbol, data) {
 
 
 // 14) Filtr pro API
-function filterCompanies(companies, type) {
+function filterCompanies() {
   const modules = document.getElementsByClassName('module');
   var nazvyFirem = [];
   
@@ -310,7 +310,7 @@ function filterCompanies(companies, type) {
 
   return JSON.stringify({
     stocks: nazvyFirem,
-    type: type
+    type: 3
   });
 }
 
@@ -321,6 +321,7 @@ function CallListStockAPI() {
     sendToApiBtn.addEventListener("click", () => {
       // 1) Zavoláme filterCompanies
       const { stocks, type } = JSON.parse(filterCompanies());
+      console.log("Vybrané akcie:", stocks, "typ:", type);
 
       // 2) Spočítáme časy
       const now = new Date();
