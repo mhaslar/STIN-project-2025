@@ -10,8 +10,29 @@
 
 <!-- Sem se budou dynamicky vkládat moduly (grafy) -->
 <div id="modulesGrid" class="modules-grid">
-    
+
 </div>
+
+<div class="filters">
+    <label>Historie (dní): <input type="number" id="inputDays" value="3" min="1" /></label>
+    <label>Od: <input type="date" id="inputFrom" /></label>
+    <label>Do: <input type="date" id="inputTo" /></label>
+    <label>Threshold rating: <input type="number" id="inputThreshold" value="5" /></label>
+    <button id="btnLoad">Načíst akcie</button>
+    <button id="btnRate">Získat rating</button>
+    <button id="btnRec">Odeslat doporučení</button>
+</div>
+
+<table id="stockTable" class="table">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Rating</th>
+            <th>Prodat?</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
 @section Scripts {
     <script>

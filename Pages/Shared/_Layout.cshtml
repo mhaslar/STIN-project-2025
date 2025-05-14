@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - STIN Burza</title>
@@ -8,12 +9,15 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <!-- Plotly z CDN (bez bundleru) -->
     <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
+    <script type="module" src="~/js/api.js"></script>
+    <script type="module" src="~/js/stock-ui.js"></script>
 </head>
+
 <body>
     <script>
-      if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark');
-      }
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark');
+        }
     </script>
 
     <nav class="sidebar close">
@@ -111,7 +115,8 @@
     <div id="waveDropdown" class="wave-dropdown">
         <!-- Tilt divider přes celou šířku -->
         <div class="custom-shape-divider-top-1744371488">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
                 <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" class="shape-fill"></path>
             </svg>
         </div>
@@ -170,7 +175,7 @@
         });
         const mainContent = document.querySelector('.main-content');
         mainContent.addEventListener('click', () => {
-            if(!sidebar.classList.contains('close')){
+            if (!sidebar.classList.contains('close')) {
                 sidebar.classList.add('close');
             }
             closeSearch();
@@ -218,7 +223,7 @@
         }
         function openExtra() {
             var extraFunkce = document.querySelector('.extraFunkce');
-            extraFunkce.style.maxHeight = "150px"; 
+            extraFunkce.style.maxHeight = "150px";
         }
         function closeExtra() {
             var extraFunkce = document.querySelector('.extraFunkce');
@@ -243,4 +248,5 @@
     </script>
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>
