@@ -1,0 +1,17 @@
+{
+    "timestamp": "2025-03-13T00:00:00+00:00",
+    "date_from": "2025-03-05T00:00:00+00:00",
+    "date_to": "2025-03-12T00:00:00+00:00",
+    "stocks": [
+        {
+            "name": "TXN",
+            "rating": 5,
+            "sell": false
+        },
+        {
+            "name": "MSFT",
+            "rating": -10,
+            "sell": true
+        }
+    ]
+}
