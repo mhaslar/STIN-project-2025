@@ -2,10 +2,10 @@ using Microsoft.Extensions.Caching.Memory;
 using STIN_Burza.Models;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using STIN_Burza.Services;
 
 namespace STIN_Burza.Services
 {
@@ -17,11 +17,11 @@ namespace STIN_Burza.Services
             { "GOOGL", new StockRating { Name = "Google", Date = DateTime.UtcNow, Rating = null, Sell = null } }
         };
 
-        private readonly HttpClient _httpClient;
+        private readonly ZpravyApiClient _zpravyApiClient;
 
-        public StockService(HttpClient httpClient)
+        public StockService(ZpravyApiClient zpravyApiClient)
         {
-            _httpClient = httpClient;
+            _zpravyApiClient = zpravyApiClient;
         }
 
         //Vrátí seznam všech akcií pouze s `name`, `rating` a `sell` jsou `null`
@@ -61,21 +61,39 @@ namespace STIN_Burza.Services
             return null;
         }
 
-        // Napojení na /api/getrating přes Basic Auth
-        public async Task<StockResponse?> GetRatingsFromZpravyAsync(StockRequest request)
+        public async Task<StockResponse> GetRatingsFromZpravyAsync(DateTime dateFrom, DateTime dateTo)
         {
-            var apiUrl = "https://novinky.zumepro.cz:8000/api/getrating";
-            var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes("burza:velmitajneheslo"));
+            var request = new StockRequest
+            {
+                Timestamp = DateTime.UtcNow,
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+                Stocks = GetAllStocks()
+                    .Select(s => new StockData { Name = s.Name, Rating = null, Sell = null })
+                    .ToList()
+            };
+            return await _zpravyApiClient.GetRatingAsync(request);
+        }
 
-            using var message = new HttpRequestMessage(HttpMethod.Post, apiUrl);
-            message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
-            message.Content = JsonContent.Create(request);
-
-            var response = await _httpClient.SendAsync(message);
-            if (!response.IsSuccessStatusCode)
-                return null;
-
-            return await response.Content.ReadFromJsonAsync<StockResponse>();
+        public async Task SendSellRecommendationsAsync(DateTime dateFrom, DateTime dateTo, int threshold)
+        {
+            // nejprve stáhneme ohodnocení
+            var ratedResponse = await GetRatingsFromZpravyAsync(dateFrom, dateTo);
+            var recRequest = new StockRequest
+            {
+                Timestamp = DateTime.UtcNow,
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+                Stocks = ratedResponse.Stocks
+                    .Select(s => new StockData
+                    {
+                        Name = s.Name,
+                        Rating = null,
+                        Sell = s.Rating.HasValue && s.Rating.Value > threshold
+                    })
+                    .ToList()
+            };
+            await _zpravyApiClient.SendRecommendationsAsync(recRequest);
         }
     }
 }

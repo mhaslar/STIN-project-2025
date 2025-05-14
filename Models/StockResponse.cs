@@ -8,7 +8,7 @@ namespace STIN_Burza.Models
         public DateTime Timestamp { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
-        public List<StockDataEntry> Stocks { get; set; } = new();
+        public List<StockData> Stocks { get; set; } = new();
 
     }
 }

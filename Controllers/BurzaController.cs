@@ -37,7 +37,7 @@ namespace STIN_Burza.Controllers
         [HttpPost("getrating")]
         public async Task<IActionResult> GetRatingsFromZpravy([FromBody] StockRequest request)
         {
-            var response = await _stockService.GetRatingsFromZpravyAsync(request);
+            var response = await _stockService.GetRatingsFromZpravyAsync(request.DateFrom, request.DateTo);
             if (response == null)
                 return StatusCode(500, "Nepodařilo se načíst data z externího API.");
             return Ok(response);

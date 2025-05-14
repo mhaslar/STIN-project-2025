@@ -8,14 +8,8 @@ namespace STIN_Burza.Models
 		public DateTime Timestamp { get; set; }
 		public DateTime DateFrom { get; set; }
 		public DateTime DateTo { get; set; }
-		public List<StockDataEntry> Stocks { get; set; } = new();
+		public List<StockData> Stocks { get; set; } = new();
 
-	}
-
-	public class StockDataEntry
-	{
-		public string Name { get; set; }
-		public int? Rating { get; set; }
-		public bool? Sell { get; set; }
-	}
+		// Removed unnecessary implicit operator to avoid converting StockRequest to itself
+    }
 }

@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using STIN_Burza.Services;
 using System.Reflection;
+using System;
+using System.Net.Http.Headers;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
+// Konfigurace klienta pro API Zpráv
+var zpravySection = builder.Configuration.GetSection("ZpravyApi");
+builder.Services.AddHttpClient<ZpravyApiClient>(client =>
+{
+    client.BaseAddress = new Uri(zpravySection["Url"]);
+    var creds = Convert.ToBase64String(
+        Encoding.ASCII.GetBytes($"{zpravySection["Username"]}:{zpravySection["Password"]}")
+    );
+    client.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Basic", creds);
+});
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<StockService>();
 builder.Services.AddHostedService<BackgroundStockFetcher>();
