@@ -76,9 +76,6 @@
                         <button id="btnDrop" class="btn-extra">
                             <i class="bx bx-chevron-down"></i> Pokles ceny
                         </button>
-                        <button id="sendToApiBtn" class="btn-extra">
-                            <i class="bx bx-send"></i> Odeslat firmy na API
-                        </button>
                     </div>
                     <select id="selectExtra" class="select-extra">
                         <option value="1">1</option>
@@ -87,8 +84,7 @@
                     </select>
                 </div>
 
-                <!-- Tlačítko pro ovládání info panelu -->
-                <button id="toggleInfoBtn" onclick="toggleWaveDropdown()">Zobrazit / Skrýt info</button>
+                <button id="sendToApiBtn" onclick="CallListStockAPI()">Odeslat firmy na API</button>
             </div>
             <div class="bottom-content">
                 <li class="">
@@ -110,38 +106,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- Wave dropdown s info panelem -->
-    <div id="waveDropdown" class="wave-dropdown">
-        <!-- Tilt divider přes celou šířku -->
-        <div class="custom-shape-divider-top-1744371488">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" class="shape-fill"></path>
-            </svg>
-        </div>
-        <!-- Vycentrovaný panel s daty -->
-        <div class="data-panel-wrapper">
-            <div class="data-panel">
-                <div class="panel-row">
-                    <span class="panel-label">Odeslané informace:</span>
-                    <span id="panelCompanies" class="panel-value">—</span>
-                </div>
-                <div class="panel-row">
-                    <span class="panel-label">Sentiment:</span>
-                    <span id="panelSentiment" class="panel-value">—</span>
-                </div>
-                <div class="panel-row">
-                    <span class="panel-label">Volba:</span>
-                    <span id="panelOption" class="panel-value">—</span>
-                </div>
-                <div class="panel-row">
-                    <span class="panel-label">Další data:</span>
-                    <span id="panelOther" class="panel-value">—</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- HLAVNÍ OBSAH (Grafy s daty) -->
     <main class="main-content">
         @RenderBody()
@@ -228,22 +192,6 @@
             var extraFunkce = document.querySelector('.extraFunkce');
             extraFunkce.style.maxHeight = "0px";
         }
-    </script>
-    <script>
-        // Tahání dat,# bereme JSON z backendu a parsujeme si ho sami a zobrazujeme na frontnedu (Zobrazíme co posíláme)
-        function toggleWaveDropdown() {
-            const waveDropdown = document.getElementById("waveDropdown");
-            waveDropdown.classList.toggle("open");
-        }
-        function updateDataPanel(jsonDataString) {
-            const data = JSON.parse(jsonDataString);
-            document.getElementById('panelCompanies').innerText = data.companies.join(', ');
-            document.getElementById('panelSentiment').innerText = data.sentiment;
-            document.getElementById('panelOption').innerText = data.option;
-            document.getElementById('panelOther').innerText = data.other;
-        }
-        const sampleJSON = '{"companies": ["ACME", "Globex", "Innotech"], "sentiment": "Růst ceny", "option": "1", "other": "Nějaké info"}';
-        updateDataPanel(sampleJSON);
     </script>
     @RenderSection("Scripts", required: false)
 </body>
