@@ -358,5 +358,5 @@ function CallListStockAPI() {
 if (!sendToApiBtn) {
     console.error("sendToApiBtn Není!");
   } else {
-    console.log("sendToApiBtn Načteno:", sendToApiBtn);
+    console.log("sendToApiBtn Načteno:");
   }
