@@ -345,10 +345,12 @@ function CallListStockAPI() {
       console.log("Odesílám payload:", payload);
       console.log("JSON.stringify:", JSON.stringify(payload, null, 2));
       // 4) Odešleme na API
-      fetch("https://novinky.zumepro.cz:8000/api/", {
+      fetch("/api/burza/liststock", {
         method: "POST",
-        headers: { "burza": "velmitajneheslo" },
-        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: toString(JSON.stringify(payload)),
       })
         .then((resp) => {
           if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
