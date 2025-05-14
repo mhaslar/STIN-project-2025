@@ -365,30 +365,6 @@ function CallListStockAPI() {
   });
 }
 
-      console.log("Odesílám payload:", payload);
-      console.log("JSON.stringify:", JSON.stringify(payload, null, 2));
-      // 4) Odešleme na API
-      fetch("/api/burza/liststock", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: toString(JSON.stringify(payload)),
-      })
-        .then((resp) => {
-          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-          return resp.json();
-        })
-        .then((data) => {
-          console.log("API odpověď:", data);
-          alert("Testovací data úspěšně odeslána!");
-        })
-        .catch((err) => {
-          console.error("Chyba při odesílání:", err);
-          alert("Nepodařilo se odeslat testovací data.");
-        });
-    });
-  }
 
 if (!sendToApiBtn) {
     console.error("sendToApiBtn Není!");
