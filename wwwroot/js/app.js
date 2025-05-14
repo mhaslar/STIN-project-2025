@@ -12,23 +12,23 @@ const modulesData = {};
 let searchResults = [];
 let selectedSet = new Set();
 
-const overlay               = document.getElementById('overlay');
-const companySearch         = document.getElementById('companySearch');
-const companyList           = document.getElementById('companyList');
-const selectedCompaniesDiv  = document.getElementById('selectedCompanies');
-const addToGridBtn          = document.getElementById('addToGridBtn');
-const modulesGrid           = document.getElementById('modulesGrid');
-const sendToApiBtn          = document.getElementById('sendToApiBtn');
+const overlay = document.getElementById('overlay');
+const companySearch = document.getElementById('companySearch');
+const companyList = document.getElementById('companyList');
+const selectedCompaniesDiv = document.getElementById('selectedCompanies');
+const addToGridBtn = document.getElementById('addToGridBtn');
+const modulesGrid = document.getElementById('modulesGrid');
+const sendToApiBtn = document.getElementById('sendToApiBtn');
 
-const dayRange              = document.getElementById('dayRange');
-const sortUpBtn             = document.getElementById('sortUpBtn');
-const sortDownBtn           = document.getElementById('sortDownBtn');
+const dayRange = document.getElementById('dayRange');
+const sortUpBtn = document.getElementById('sortUpBtn');
+const sortDownBtn = document.getElementById('sortDownBtn');
 
 // Modal
-const detailModal   = document.getElementById('detailModal');
+const detailModal = document.getElementById('detailModal');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
-const modalTitle    = document.getElementById('modalTitle');
-const modalBody     = document.getElementById('modalBody');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
 
 // === DARK MODE toggle ===
 const darkModeCheckbox = document.getElementById('darkModeCheckbox');
@@ -315,31 +315,35 @@ sortDownBtn.addEventListener('click', () => {
 sendToApiBtn.addEventListener('click', () => {
   const modules = document.querySelectorAll('#modulesGrid .module');
   const payload = Array.from(modules).map(mod => ({
-    name:   mod.dataset.name,
-    date:   Math.floor(Date.now() / 1000),
+    name: mod.dataset.name,
+    date: Math.floor(Date.now() / 1000),
     rating: null,
-    sell:   null
+    sell: null
   }));
 
   fetch('https://vase.api.endpoint/submitCompanies', {
-    method:  'POST',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify(payload)
+    body: JSON.stringify(payload)
   })
-  .then(resp => {
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    return resp.json();
-  })
-  .then(data => {
-    console.log('API odpověď:', data);
-    alert('Data odeslána!');
-  })
-  .catch(err => {
-    console.error('Chyba při odesílání:', err);
-    alert('Nepodařilo se odeslat data.');
-  });
+    .then(resp => {
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return resp.json();
+    })
+    .then(data => {
+      console.log('API odpověď:', data);
+      alert('Data odeslána!');
+    })
+    .catch(err => {
+      console.error('Chyba při odesílání:', err);
+      alert('Nepodařilo se odeslat data.');
+    });
 });
 
-function CallListStockAPI(){
+function filterCompanies(companies, type) {
+  return '{"stocks": ["APPL", "GOOGL"], "type": 3}'; // TODO: implementovat
+}
+
+function CallListStockAPI() {
 
 }
