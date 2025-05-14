@@ -138,37 +138,62 @@ namespace STIN_Burza.Controllers
             // 2) Pro každý stock nastavíme sell = true, pokud rating < 0, jinak false
             foreach (var s in ratingReq.Stocks)
             {
-                if (s.Rating.HasValue)
-                    s.Sell = s.Rating.Value > 0;
-                else
-                    s.Sell = false; // nebo null, dle požadavku
+                if (s.Rating.HasValue && s.Rating.Value > 0) {
+                    s.Sell = 1;
+                } else {
+                    s.Sell = 0;
+                }
             }
 
-            // 3) Serializace upraveného objektu zpět na JSON
-            var resultJson = JsonSerializer.Serialize(ratingReq, new JsonSerializerOptions
+            // 2) Připravíme nový payload se správným formátem timestampů a nulovým ratingem
+            var sellPayload = new
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+                timestamp = ratingReq.Timestamp
+                             .ToUniversalTime()
+                             .ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'"),
+                date_from = ratingReq.DateFrom
+                             .ToUniversalTime()
+                             .ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'"),
+                date_to = ratingReq.DateTo
+                             .ToUniversalTime()
+                             .ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'"),
+                stocks = ratingReq.Stocks.Select(s => new
+                {
+                    name = s.Name,
+                    rating = (decimal?)null,
+                    sell = s.Sell
+                }).ToList()
+            };
 
-            // 4) Příprava HTTP požadavku na externí API
-            var externalUrl = "https://novinky.zumepro.cz:8000/api/salestock";
+            // 3) Serializace čistého payloadu
+            var resultJson = JsonSerializer.Serialize(sellPayload);
+            // pro debug:
+            Console.WriteLine("Odesílám na salestock JSON: " + resultJson);
 
-            string userName = "burza";
-            string password = "velmitajneheslo";
-
+            // 4) Zbytek zůstává stejný
+            var externalUrl = "https://novinky.zumepro.cz:8000/api/salestock";  // DVOJITÉ "l"
+            var userName = "burza";
+            var password = "velmitajneheslo";
             var httpReq = new HttpRequestMessage(HttpMethod.Post, externalUrl)
             {
                 Headers =
-                {
-                    ExpectContinue = false,
-                    Authorization = new AuthenticationHeaderValue(
-                        "Basic",
-                        Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}"))
-                    )
-                }
+    {
+        ExpectContinue = false,
+        Authorization = new AuthenticationHeaderValue(
+            "Basic",
+            Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}"))
+        )
+    }
             };
 
-            httpReq.Content = new StringContent(resultJson, Encoding.UTF8, "application/json");
+
+
+
+            var content = new StringContent(resultJson, Encoding.UTF8);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            httpReq.Content = content;
+            httpReq.Headers.Accept.Clear();
+            httpReq.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             try
             {
@@ -177,7 +202,7 @@ namespace STIN_Burza.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return Ok(JsonDocument.Parse(respContent).RootElement);
+                    return Ok("Ok");
                 }
                 else
                 {
@@ -205,7 +230,7 @@ namespace STIN_Burza.Controllers
             public decimal? Rating { get; set; }
 
             [JsonPropertyName("sell")]
-            public bool? Sell { get; set; }
+            public int? Sell { get; set; }
         }
 
         public class GetRatingRequest
