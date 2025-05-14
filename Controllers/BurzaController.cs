@@ -19,10 +19,28 @@ namespace STIN_Burza.Controllers
 
         // Endpoint: `liststock`
         [HttpGet("liststock")]
-        public IActionResult ListStocks()
+        public async Task<IActionResult> ListStock(
+    [FromQuery] DateTime dateFrom,
+    [FromQuery] DateTime dateTo,
+    [FromQuery] bool filter3Down = true,
+    [FromQuery] int? minDropsIn5 = null)
         {
-            var stocks = _stockService.GetAllStocks();
-            return Ok(stocks);
+            var favs = await _db.GetFavoritesAsync();
+            List<string> symbols = new(favs);
+
+            if (filter3Down)
+                symbols = (await _filter.FilterAlwaysDownAsync(symbols, dateTo, 3)).ToList();
+            if (minDropsIn5.HasValue)
+                symbols = (await _filter.FilterDropsCountAsync(symbols, dateTo, 5, minDropsIn5.Value)).ToList();
+
+            return Ok(symbols);
+        }
+
+        [HttpPost("trigger")]
+        public IActionResult TriggerNow()
+        {
+            _fetcher.TriggerManualRun();
+            return Accepted();
         }
 
         //  Endpoint: `salestock`

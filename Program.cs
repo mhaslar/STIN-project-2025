@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using STIN_Burza.Services;
+using STIN_Burza.Services.Filters;
 using System.Reflection;
 using System;
 using System.Net.Http.Headers;
 using System.Text;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +40,17 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
 });
+
+// Configure HTTP client for StockMarket API
+builder.Services.AddHttpClient<StockMarketClient>(c =>
+{
+    c.BaseAddress = new Uri(builder.Configuration["StockApi:Url"]);
+})
+    .AddTypedClient<IStockMarketClient>((http, sp) =>
+        new StockMarketClient(http, sp.GetRequiredService<IConfiguration>()));
+
+// filtry
+builder.Services.AddScoped<IStockFilterService, StockFilterService>();
 
 var app = builder.Build();
 
