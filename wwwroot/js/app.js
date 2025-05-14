@@ -297,7 +297,21 @@ function updateStockInfo(symbol, data) {
 
 // 14) Filtr pro API
 function filterCompanies(companies, type) {
-  return '{"stocks": ["APPL", "GOOGL"], "type": 3}'; // TODO: implementovat
+  const modules = document.getElementsByClassName('module');
+  var nazvyFirem = [];
+  
+  for (const mod of modules) {
+    const symbol = mod.id.replace('mod-', '');
+    const name = symbol;
+    nazvyFirem.push(name);
+  }
+
+  
+
+  return JSON.stringify({
+    stocks: nazvyFirem,
+    type: type
+  });
 }
 
 function CallListStockAPI() {
