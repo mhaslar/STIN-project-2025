@@ -1,4 +1,3 @@
-// app.js
 console.log("app.js načten!");
 
 // 1) searchCache[query] => pole "bestMatches" z SYMBOL_SEARCH
@@ -293,80 +292,71 @@ function updateStockInfo(symbol, data) {
   }
 }
 
-
-
 // 14) Filtr pro API
-function filterCompanies() {
-  const modules = document.getElementsByClassName('module');
-  var nazvyFirem = [];
-  
-  for (const mod of modules) {
-    const symbol = mod.id.replace('mod-', '');
-    const name = symbol;
-    nazvyFirem.push(name);
-  }
-
-  
-
-  return JSON.stringify({
-    stocks: nazvyFirem,
-    type: 3
-  });
+function toISOStringNoMs(dt) {
+  return dt.toISOString().split('.')[0] + '+00:00';
 }
 
+// 2) Sestaví JSON podle modulů
+function filterCompanies() {
+  const modules = document.getElementsByClassName('module');
+  const nazvyFirem = [];
+  for (const mod of modules) {
+    nazvyFirem.push(mod.id.replace('mod-', ''));
+  }
+  // případně sem místo pevného `type:3` dejte svůj selectExtra.value
+  return JSON.stringify({ stocks: nazvyFirem, type: 3 });
+}
+
+// 3) Tohle zavolá přímo inline onclick – **žádné další addEventListenery zde**
 function CallListStockAPI() {
-  function toISOStringNoMs(dt) {
-    return dt.toISOString().split(".")[0] + "+00:00";
-  }
-    sendToApiBtn.addEventListener("click", () => {
-      // 1) Zavoláme filterCompanies
-      const { stocks, type } = JSON.parse(filterCompanies());
-      console.log("Vybrané akcie:", stocks, "typ:", type);
+  // a) rozparsovat
+  const { stocks, type } = JSON.parse(filterCompanies());
+  console.log('Vybrané akcie:', stocks, 'typ:', type);
 
-      // 2) Spočítáme časy
-      const now = new Date();
-      const timestamp = toISOStringNoMs(now);
-      const dateFromDt = new Date(now.getTime() - type * 24 * 60 * 60 * 1000);
-      const date_from = toISOStringNoMs(dateFromDt);
-      const date_to = timestamp;
+  // b) timestampy
+  const now       = new Date();
+  const timestamp = toISOStringNoMs(now);
+  const date_from = toISOStringNoMs(new Date(now.getTime() - type * 24*60*60*1000));
+  const date_to   = timestamp;
 
-      // 3) Sestavíme payload
-      const payload = {
-        timestamp,
-        date_from,
-        date_to,
-        stocks: stocks.map((name) => ({
-          name,
-          rating: null,
-          sell: null,
-        })),
-      };
+  // c) payload
+  const payload = {
+    timestamp,
+    date_from,
+    date_to,
+    stocks: stocks.map(name => ({ name, rating: null, sell: null }))
+  };
 
-      console.log("Odesílám payload:", payload);
-      console.log("JSON.stringify:", JSON.stringify(payload, null, 2));
-      // 4) Odešleme na API
-      fetch("https://novinky.zumepro.cz:8000/api/", {
-        method: "POST",
-        headers: { "burza": "velmitajneheslo" },
-        body: JSON.stringify(payload),
-      })
-        .then((resp) => {
-          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-          return resp.json();
-        })
-        .then((data) => {
-          console.log("API odpověď:", data);
-          alert("Testovací data úspěšně odeslána!");
-        })
-        .catch((err) => {
-          console.error("Chyba při odesílání:", err);
-          alert("Nepodařilo se odeslat testovací data.");
-        });
-    });
-  }
+  console.log('Odesílám payload:', payload);
+  console.log('JSON.stringify:', JSON.stringify(payload, null, 2));
+
+  // d) fetch na proxy endpoint
+  fetch('/api/burza/liststock', {
+    method: 'POST',
+    headers: {
+      burza: 'velmitajneheslo',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(resp => {
+    console.log('Adresa API:', resp.url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+  })
+  .then(data => {
+    console.log('API odpověď:', data);
+    alert('Testovací data úspěšně odeslána!');
+  })
+  .catch(err => {
+    console.error('Chyba při odesílání:', err);
+    alert('Nepodařilo se odeslat testovací data.');
+  });
+}
 
 if (!sendToApiBtn) {
     console.error("sendToApiBtn Není!");
   } else {
-    console.log("sendToApiBtn Načteno:", sendToApiBtn);
+    console.log("sendToApiBtn Načteno:");
   }
