@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using STIN_Burza.Services;
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -7,12 +7,17 @@
     <RootNamespace>STIN_Burza</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn> <!-- potlačí warningy v Swaggeru -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <ExcludeByFile>**/Pages/**/*.cs;**/Program.cs</ExcludeByFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
+    <Compile Remove="STIN-Burza.Tests\**\*.cs" />
+    <None    Remove="STIN-Burza.Tests\**\*.cs" />
   </ItemGroup>
 
 </Project>

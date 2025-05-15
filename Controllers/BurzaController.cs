@@ -96,28 +96,6 @@ namespace STIN_Burza.Controllers
             }
         }
 
-        // Endpoint: `salestock`
-        [HttpPost("salestock")]
-        public IActionResult SellStock([FromBody] JsonElement request)
-        {
-            // 1) Získání JSON payloadu jako string
-            string jsonPayloadToSend = request.ToString() ?? "{}";
-            Console.WriteLine($"Volání externího API burzy. Payload: {jsonPayloadToSend}");
-            System.Diagnostics.Debug.WriteLine($"Volání externího API burzy. Payload: {jsonPayloadToSend}");
-
-            if (string.IsNullOrEmpty(jsonPayloadToSend))
-            {
-                System.Diagnostics.Debug.WriteLine("Prázdný payload.");
-                return BadRequest("Tělo požadavku je prázdné.");
-            }
-
-            // 2) Odeslání požadavku na externí API
-            var response = _stockService.SellStock(jsonPayloadToSend);
-            if (response == null)
-                return StatusCode(500, "Nepodařilo se načíst data z externího API.");
-            return Ok(response);
-        }
-
         [HttpPost("getRating")]
         public async Task<IActionResult> GetRatingsFromZpravy([FromBody] JsonElement request)
         {
