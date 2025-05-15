@@ -7,6 +7,8 @@ const stockDataCache = {};
 // Pro uložení poslední hodnoty a % změny, abychom mohli třídit
 const modulesData = {};
 
+var typFiltru = 3; // defaultně 3 dny
+
 // Globální pole firem
 let searchResults = [];
 let selectedSet = new Set();
@@ -20,14 +22,8 @@ const modulesGrid = document.getElementById("modulesGrid");
 const sendToApiBtn = document.getElementById("sendToApiBtn");
 
 const dayRange = document.getElementById("dayRange");
-const sortUpBtn = document.getElementById("sortUpBtn");
-const sortDownBtn = document.getElementById("sortDownBtn");
 
-// Modal
-const detailModal = document.getElementById("detailModal");
-const modalCloseBtn = document.getElementById("modalCloseBtn");
-const modalTitle = document.getElementById("modalTitle");
-const modalBody = document.getElementById("modalBody");
+const modeSwitcher = document.getElementById("modeSwitcher");
 
 // === DARK MODE toggle ===
 const darkModeCheckbox = document.getElementById("darkModeCheckbox");
@@ -36,6 +32,16 @@ if (darkModeCheckbox) {
     document.body.classList.toggle("dark-mode", darkModeCheckbox.checked);
   });
 }
+
+modeSwitcher.addEventListener("click", () => {
+  if (document.getElementById("modeSwitcherSpan").innerHTML === "3 dny") {
+    document.getElementById("modeSwitcherSpan").innerHTML = "5 dní";
+    typFiltru = 5;
+  } else {
+    document.getElementById("modeSwitcherSpan").innerHTML = "3 dny";
+    typFiltru = 3;
+  }
+});
 
 // 2) DEBOUNCE vyhledávání + min. počet znaků
 let debounceTimer;
@@ -298,15 +304,62 @@ function toISOStringNoMs(dt) {
 }
 
 // 2) Sestaví JSON podle modulů
+// 2) Sestaví JSON podle modulů a aplikuje filtr podle typFiltru
 function filterCompanies() {
+  // 1) sebereme všechny symboly z existujících modulů
   const modules = document.getElementsByClassName('module');
-  const nazvyFirem = [];
-  for (const mod of modules) {
-    nazvyFirem.push(mod.id.replace('mod-', ''));
-  }
-  // případně sem místo pevného `type:3` dejte svůj selectExtra.value
-  return JSON.stringify({ stocks: nazvyFirem, type: 3 });
+  const symbols = Array.from(modules)
+    .map(mod => mod.id.replace('mod-', ''));
+
+  // 2) projdeme každý symbol a zkontrolujeme data v cache
+  const filtered = symbols.filter(symbol => {
+    const data = stockDataCache[symbol];
+    if (!data || !data["Time Series (Daily)"]) return false;
+
+    // Time Series
+    const series = data["Time Series (Daily)"];
+    // seřazené datumy (trading days)
+    const dates = Object.keys(series).sort();
+
+    // helper: vyextrahuje pole close hodnot pro posledních N+1 dní
+    const getCloses = (n) => {
+      const slice = dates.slice(- (n + 1)); // N+1 dat pro N porovnání
+      return slice.map(d => parseFloat(series[d]["4. close"]));
+    };
+
+    if (typFiltru === 3) {
+      // potřebujeme 4 data pro 3 po sobě jdoucí poklesy
+      if (dates.length < 4) return false;
+      const closes = getCloses(3);
+      // tři poklesy: c0>c1, c1>c2, c2>c3
+      return closes[0] > closes[1]
+        && closes[1] > closes[2]
+        && closes[2] > closes[3];
+    }
+    else if (typFiltru === 5) {
+      // potřebujeme 6 dat pro 5 intervalů, ze kterých spočítáme poklesy
+      if (dates.length < 6) return false;
+      const closes = getCloses(5);
+      // spočítáme, kolikrát c[i] > c[i+1]
+      let declines = 0;
+      for (let i = 0; i < closes.length - 1; i++) {
+        if (closes[i] > closes[i + 1]) declines++;
+      }
+      // chceme více než 2 poklesy
+      return declines > 2;
+    }
+
+    // ostatní typy filtru (pokud by se přidaly) vrátí false
+    return false;
+  });
+
+  // 3) vrátíme JSON se seznamem filtrovaných firem a aktuálním typFiltru
+  return JSON.stringify({
+    stocks: filtered,
+    type: typFiltru
+  });
 }
+
 
 // 3) Tohle zavolá přímo inline onclick – **žádné další addEventListenery zde**
 function CallListStockAPI() {
@@ -315,10 +368,10 @@ function CallListStockAPI() {
   console.log('Vybrané akcie:', stocks, 'typ:', type);
 
   // b) timestampy
-  const now       = new Date();
+  const now = new Date();
   const timestamp = toISOStringNoMs(now);
-  const date_from = toISOStringNoMs(new Date(now.getTime() - type * 24*60*60*1000));
-  const date_to   = timestamp;
+  const date_from = toISOStringNoMs(new Date(now.getTime() - type * 24 * 60 * 60 * 1000));
+  const date_to = timestamp;
 
   // c) payload
   const payload = {
@@ -340,23 +393,23 @@ function CallListStockAPI() {
     },
     body: JSON.stringify(payload)
   })
-  .then(resp => {
-    console.log('Adresa API:', resp.url);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    return resp.json();
-  })
-  .then(data => {
-    console.log('API odpověď:', data);
-    alert('Testovací data úspěšně odeslána!');
-  })
-  .catch(err => {
-    console.error('Chyba při odesílání:', err);
-    alert('Nepodařilo se odeslat testovací data.');
-  });
+    .then(resp => {
+      console.log('Adresa API:', resp.url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return resp.json();
+    })
+    .then(data => {
+      console.log('API odpověď:', data);
+      alert('Testovací data úspěšně odeslána!');
+    })
+    .catch(err => {
+      console.error('Chyba při odesílání:', err);
+      alert('Nepodařilo se odeslat testovací data.');
+    });
 }
 
 if (!sendToApiBtn) {
-    console.error("sendToApiBtn Není!");
-  } else {
-    console.log("sendToApiBtn Načteno:");
-  }
+  console.error("sendToApiBtn Není!");
+} else {
+  console.log("sendToApiBtn Načteno:");
+}
