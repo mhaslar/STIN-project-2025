@@ -318,57 +318,45 @@ function toISOStringNoMs(dt) {
 }
 
 // 2) Sestaví JSON podle modulů
-// 2) Sestaví JSON podle modulů a aplikuje filtr podle typFiltru
 function filterCompanies() {
-  // 1) sebereme všechny symboly z existujících modulů
   const modules = document.getElementsByClassName('module');
   const symbols = Array.from(modules)
     .map(mod => mod.id.replace('mod-', ''));
 
-  // 2) projdeme každý symbol a zkontrolujeme data v cache
   const filtered = symbols.filter(symbol => {
     const data = stockDataCache[symbol];
     if (!data || !data["Time Series (Daily)"]) return false;
 
-    // Time Series
     const series = data["Time Series (Daily)"];
-    // seřazené datumy (trading days)
     const dates = Object.keys(series).sort();
 
-    // helper: vyextrahuje pole close hodnot pro posledních N+1 dní
     const getCloses = (n) => {
-      const slice = dates.slice(- (n + 1)); // N+1 dat pro N porovnání
+      const slice = dates.slice(- (n + 1));
       return slice.map(d => parseFloat(series[d]["4. close"]));
     };
 
     if (typFiltru === 3) {
-      // potřebujeme 4 data pro 3 po sobě jdoucí poklesy
       if (dates.length < 4) return false;
       const closes = getCloses(3);
-      // tři poklesy: c0>c1, c1>c2, c2>c3
       return closes[0] > closes[1]
         && closes[1] > closes[2]
         && closes[2] > closes[3];
     } else if (typFiltru === 5) {
-      // potřebujeme 6 dat pro 5 intervalů, ze kterých spočítáme poklesy
       if (dates.length < 6) return false;
       const closes = getCloses(5);
-      // spočítáme, kolikrát c[i] > c[i+1]
       let declines = 0;
       for (let i = 0; i < closes.length - 1; i++) {
         if (closes[i] > closes[i + 1]) declines++;
       }
-      // chceme více než 2 poklesy
       return declines > 2;
     }
 
-    // ostatní typy filtru (pokud by se přidaly) vrátí false
     return false;
   });
 
   // 3) vrátíme JSON se seznamem filtrovaných firem a aktuálním typFiltru
   return JSON.stringify({
-    stocks: filtered,
+    stocks: symbols,
     type: typFiltru
   });
 }
