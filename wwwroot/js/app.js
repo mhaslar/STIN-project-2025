@@ -9,6 +9,9 @@ const modulesData = {};
 
 var typFiltru = 3; // defaultně 3 dny
 
+var threshold = nactiThreshold(); // Hranice pro určení hodnoty sell
+document.getElementById("threshold").innerHTML = threshold;
+
 // Globální pole firem
 let searchResults = [];
 let selectedSet = new Set();
@@ -406,6 +409,110 @@ function CallListStockAPI() {
       console.error('Chyba při odesílání:', err);
       alert('Nepodařilo se odeslat testovací data.');
     });
+}
+
+function zvysHranici() {
+  if (threshold != 10) {
+    threshold += 1;
+    document.getElementById("threshold").innerHTML = threshold;
+    console.log("Zvýšení hranice na", threshold);
+    console.log(JSON.stringify({ threshold }));
+
+    fetch('/api/burza/setThreshold', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ threshold })
+    })
+      .then(resp => {
+        console.log('Adresa API:', resp.url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp;
+      })
+      .then(data => {
+        console.log('API odpověď:', data);
+        //alert('Hranice úspěšně zvýšena!');
+      })
+      .catch(err => {
+        console.error('Chyba při zvyšování hranice:', err);
+        alert('Nepodařilo se zvýšit hranici.');
+      });
+  }
+}
+
+function snizHranici() {
+  if (threshold != -10) {
+    threshold -= 1;
+    document.getElementById("threshold").innerHTML = threshold;
+    console.log("Snížení hranice na", threshold);
+    console.log(JSON.stringify({ threshold }));
+
+    fetch('/api/burza/setThreshold', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ threshold })
+    })
+      .then(resp => {
+        console.log('Adresa API:', resp.url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp;
+      })
+      .then(data => {
+        console.log('API odpověď:', data);
+        //alert('Hranice úspěšně snížena!');
+      })
+      .catch(err => {
+        console.error('Chyba při snižování hranice:', err);
+        alert('Nepodařilo se snížit hranici.');
+      });
+  }
+}
+
+function nactiThreshold() {
+  fetch('/api/burza/getThreshold')
+    .then(resp => {
+      console.log('Adresa API:', resp.url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return resp.json();
+    })
+    .then(data => {
+      console.log('API odpověď:', data);
+      threshold = data.threshold;
+      document.getElementById("threshold").innerHTML = threshold;
+    })
+    .catch(err => {
+      console.error('Chyba při načítání hranice:', err);
+      alert('Nepodařilo se načíst hranici.');
+    });
+}
+
+function toggleVolbuHranice() {
+  const elementy = document.querySelectorAll(".zmenaHodnoty");
+  elementy.forEach((element) => {
+    if (element.style.width === "0%") {
+      element.style.width = "33%";
+    } else {
+      element.style.width = "0%";
+    }
+  });
+}
+
+function zavriVolbuHranice() {
+  const elementy = document.querySelectorAll(".zmenaHodnoty");
+  elementy.forEach((element) => {
+    element.style.width = "0%";
+  });
+}
+
+function otevriVolbuHranice() {
+  console.log("otevriVolbuHranice");
+  const elementy = document.querySelectorAll(".zmenaHodnoty");
+  elementy.forEach((element) => {
+    element.style.width = "33%";
+  });
 }
 
 if (!sendToApiBtn) {
