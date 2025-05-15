@@ -10,6 +10,10 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <!-- Plotly z CDN (bez bundleru) -->
     <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    
+    </style>
 </head>
 
 <body>
@@ -122,12 +126,17 @@
             searchBtn = body.querySelector(".search-box"),
             modeSwitch = body.querySelector(".toggle-switch"),
             modeText = body.querySelector(".mode-text");
+        
         toggle.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-            for (const element of document.getElementsByClassName("zmenaHodnoty")) {
-                element.classList.toggle("closed");
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle("open");
+                sidebar.classList.remove("close");
+            } else {
+                sidebar.classList.toggle("close");
+                sidebar.classList.remove("open");
             }
             closeSearch();
+            document.querySelectorAll(".zmenaHodnoty").forEach(el => el.classList.toggle("closed"));
         });
         searchBtn.addEventListener("click", () => {
             sidebar.classList.remove("close");
@@ -147,6 +156,9 @@
         mainContent.addEventListener('click', () => {
             if (!sidebar.classList.contains('close')) {
                 sidebar.classList.add('close');
+                zavriVolbuHranice();
+            } else {
+                otevriVolbuHranice();
             }
             closeSearch();
         });

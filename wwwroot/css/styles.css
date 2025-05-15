@@ -45,10 +45,26 @@ h2 {
 }
 
 .modules-grid {
-    margin-top: 0.4rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .modules-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .module {
+        height: auto;
+        /* Aby modul neměl tu výšku 400px na mobilu */
+    }
 }
 
 @media (max-width: 768px) {
@@ -612,4 +628,30 @@ body.dark .data-panel {
 .hodnota {
     width: 33%;
     color: var(--text-color);
+}
+
+/* Mobilní zařízení */
+@media (max-width: 576px) {
+  .main-content { margin-left: 0; width: 100%; }
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .modules-grid { grid-template-columns: 1fr; }
+  .module { height: auto; }
+  h2 { font-size: 1.25rem; }
+}
+
+/* Tablety */
+@media (min-width: 577px) and (max-width: 768px) {
+  .main-content { margin-left: 0; width: 100%; }
+  .modules-grid { grid-template-columns: 1fr; }
+}
+
+/* Menší desktop */
+@media (min-width: 769px) and (max-width: 991px) {
+  .modules-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Větší desktop */
+@media (min-width: 992px) {
+  .modules-grid { grid-template-columns: repeat(3, 1fr); }
 }
