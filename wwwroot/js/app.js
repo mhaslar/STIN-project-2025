@@ -7,6 +7,17 @@ const stockDataCache = {};
 // Pro uložení poslední hodnoty a % změny, abychom mohli třídit
 const modulesData = {};
 
+var apiZpravy = [];
+const apiZpravyDiv = document.getElementById("apiInfo");
+
+function addApiZprava() {
+  apiZpravyDiv.innerHTML = "";
+  apiZpravy.forEach(element => {
+    console.log("Zpráva:", element);
+    apiZpravyDiv.innerHTML += `<p>${element}</p>`;
+  });
+}
+
 var typFiltru = 3; // defaultně 3 dny
 
 var threshold = nactiThreshold(); // Hranice pro určení hodnoty sell
@@ -338,8 +349,7 @@ function filterCompanies() {
       return closes[0] > closes[1]
         && closes[1] > closes[2]
         && closes[2] > closes[3];
-    }
-    else if (typFiltru === 5) {
+    } else if (typFiltru === 5) {
       // potřebujeme 6 dat pro 5 intervalů, ze kterých spočítáme poklesy
       if (dates.length < 6) return false;
       const closes = getCloses(5);
@@ -383,6 +393,16 @@ function CallListStockAPI() {
     date_to,
     stocks: stocks.map(name => ({ name, rating: null, sell: null }))
   };
+
+  const aktualniCas = new Date();
+  const formattedCas = aktualniCas.toLocaleString('cs-CZ', {
+    timeZone: 'Europe/Prague',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+
+  apiZpravy.push(formattedCas + ' - odesílám call endpoint liststock.')
 
   console.log('Odesílám payload:', payload);
   console.log('JSON.stringify:', JSON.stringify(payload, null, 2));
@@ -487,17 +507,6 @@ function nactiThreshold() {
       console.error('Chyba při načítání hranice:', err);
       alert('Nepodařilo se načíst hranici.');
     });
-}
-
-function toggleVolbuHranice() {
-  const elementy = document.querySelectorAll(".zmenaHodnoty");
-  elementy.forEach((element) => {
-    if (element.style.width === "0%") {
-      element.style.width = "33%";
-    } else {
-      element.style.width = "0%";
-    }
-  });
 }
 
 function zavriVolbuHranice() {
