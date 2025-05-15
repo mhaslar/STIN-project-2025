@@ -7,7 +7,21 @@ const stockDataCache = {};
 // Pro uložení poslední hodnoty a % změny, abychom mohli třídit
 const modulesData = {};
 
+var apiZpravy = [];
+const apiZpravyDiv = document.getElementById("apiInfo");
+
+function addApiZprava() {
+  apiZpravyDiv.innerHTML = "";
+  apiZpravy.forEach(element => {
+    console.log("Zpráva:", element);
+    apiZpravyDiv.innerHTML += `<p>${element}</p>`;
+  });
+}
+
 var typFiltru = 3; // defaultně 3 dny
+
+var threshold = nactiThreshold(); // Hranice pro určení hodnoty sell
+document.getElementById("threshold").innerHTML = threshold;
 
 // Globální pole firem
 let searchResults = [];
@@ -335,8 +349,7 @@ function filterCompanies() {
       return closes[0] > closes[1]
         && closes[1] > closes[2]
         && closes[2] > closes[3];
-    }
-    else if (typFiltru === 5) {
+    } else if (typFiltru === 5) {
       // potřebujeme 6 dat pro 5 intervalů, ze kterých spočítáme poklesy
       if (dates.length < 6) return false;
       const closes = getCloses(5);
@@ -381,6 +394,16 @@ function CallListStockAPI() {
     stocks: stocks.map(name => ({ name, rating: null, sell: null }))
   };
 
+  const aktualniCas = new Date();
+  const formattedCas = aktualniCas.toLocaleString('cs-CZ', {
+    timeZone: 'Europe/Prague',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+
+  apiZpravy.push(formattedCas + ' - odesílám call endpoint liststock.')
+
   console.log('Odesílám payload:', payload);
   console.log('JSON.stringify:', JSON.stringify(payload, null, 2));
 
@@ -406,6 +429,99 @@ function CallListStockAPI() {
       console.error('Chyba při odesílání:', err);
       alert('Nepodařilo se odeslat testovací data.');
     });
+}
+
+function zvysHranici() {
+  if (threshold != 10) {
+    threshold += 1;
+    document.getElementById("threshold").innerHTML = threshold;
+    console.log("Zvýšení hranice na", threshold);
+    console.log(JSON.stringify({ threshold }));
+
+    fetch('/api/burza/setThreshold', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ threshold })
+    })
+      .then(resp => {
+        console.log('Adresa API:', resp.url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp;
+      })
+      .then(data => {
+        console.log('API odpověď:', data);
+        //alert('Hranice úspěšně zvýšena!');
+      })
+      .catch(err => {
+        console.error('Chyba při zvyšování hranice:', err);
+        alert('Nepodařilo se zvýšit hranici.');
+      });
+  }
+}
+
+function snizHranici() {
+  if (threshold != -10) {
+    threshold -= 1;
+    document.getElementById("threshold").innerHTML = threshold;
+    console.log("Snížení hranice na", threshold);
+    console.log(JSON.stringify({ threshold }));
+
+    fetch('/api/burza/setThreshold', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ threshold })
+    })
+      .then(resp => {
+        console.log('Adresa API:', resp.url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp;
+      })
+      .then(data => {
+        console.log('API odpověď:', data);
+        //alert('Hranice úspěšně snížena!');
+      })
+      .catch(err => {
+        console.error('Chyba při snižování hranice:', err);
+        alert('Nepodařilo se snížit hranici.');
+      });
+  }
+}
+
+function nactiThreshold() {
+  fetch('/api/burza/getThreshold')
+    .then(resp => {
+      console.log('Adresa API:', resp.url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return resp.json();
+    })
+    .then(data => {
+      console.log('API odpověď:', data);
+      threshold = data.threshold;
+      document.getElementById("threshold").innerHTML = threshold;
+    })
+    .catch(err => {
+      console.error('Chyba při načítání hranice:', err);
+      alert('Nepodařilo se načíst hranici.');
+    });
+}
+
+function zavriVolbuHranice() {
+  const elementy = document.querySelectorAll(".zmenaHodnoty");
+  elementy.forEach((element) => {
+    element.style.width = "0%";
+  });
+}
+
+function otevriVolbuHranice() {
+  console.log("otevriVolbuHranice");
+  const elementy = document.querySelectorAll(".zmenaHodnoty");
+  elementy.forEach((element) => {
+    element.style.width = "33%";
+  });
 }
 
 if (!sendToApiBtn) {

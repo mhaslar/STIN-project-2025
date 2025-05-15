@@ -50,6 +50,7 @@ h2 {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
 }
+
 @media (max-width: 768px) {
     .modules-grid {
         grid-template-columns: 1fr;
@@ -297,6 +298,7 @@ body.dark .sidebar header .toggle {
     border-radius: 5px;
     cursor: pointer;
 }
+
 .btn-extra i {
     font-size: 1.3rem;
     margin-right: 8px;
@@ -318,14 +320,14 @@ body.dark .sidebar header .toggle {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 body.dark .select-extra {
     background-color: var(--sidebar-color);
     color: var(--toggle-color);
     border: 1px solid var(--text-color);
-    box-shadow: 0 1px 2px rgba(255,255,255,0.1);
+    box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 .sidebar.close .toggle {
@@ -518,9 +520,11 @@ body.dark .module-bottom {
     transition: max-height 0.4s ease;
     margin-bottom: 20px;
 }
+
 .wave-dropdown.open {
     max-height: 500px;
 }
+
 .custom-shape-divider-top-1744371488 {
     position: absolute;
     top: 0;
@@ -529,12 +533,14 @@ body.dark .module-bottom {
     overflow: hidden;
     line-height: 0;
 }
+
 .custom-shape-divider-top-1744371488 svg {
     position: relative;
     display: block;
     width: calc(100% + 1.3px);
     height: 218px;
 }
+
 .custom-shape-divider-top-1744371488 .shape-fill {
     fill: #FFFFFF;
 }
@@ -546,30 +552,64 @@ body.dark .module-bottom {
     margin: 0 auto;
     padding-top: 20px;
 }
+
 .data-panel {
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 15px;
 }
+
 .panel-row {
     display: flex;
     justify-content: space-between;
     padding: 8px 0;
     border-bottom: 1px solid #eaeaea;
 }
+
 .panel-row:last-child {
     border-bottom: none;
 }
+
 .panel-label {
     font-weight: 600;
     color: #333;
 }
+
 .panel-value {
     text-align: right;
     color: #555;
 }
+
 body.dark .data-panel {
     background-color: var(--sidebar-color);
     border: 1px solid var(--text-color);
+}
+
+.vyberHranice {
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.zmenaHodnoty {
+    width: 33%;
+    height: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.zmenaHodnoty.closed {
+    width: 0%;
+    color: var(--text-color);
+}
+
+.hodnota {
+    width: 33%;
+    color: var(--text-color);
 }
