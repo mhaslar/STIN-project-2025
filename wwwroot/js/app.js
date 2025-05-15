@@ -411,7 +411,7 @@ function CallListStockAPI() {
     })
     .then(data => {
       console.log('API odpověď:', data);
-      alert('Testovací data úspěšně odeslána!');
+      //alert('Testovací data úspěšně odeslána!');
     })
     .catch(err => {
       console.error('Chyba při odesílání:', err);
