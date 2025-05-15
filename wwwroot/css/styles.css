@@ -606,8 +606,10 @@ body.dark .data-panel {
 
 .zmenaHodnoty.closed {
     width: 0%;
+    color: var(--text-color);
 }
 
 .hodnota {
     width: 33%;
+    color: var(--text-color);
 }
