@@ -1,14 +1,14 @@
-[![Azure Deploy - Development](https://github.com/mhaslar/STIN-project-2025/actions/workflows/development_devstinburza.yml/badge.svg)](https://github.com/mhaslar/STIN-project-2025/actions/workflows/development_devstinburza.yml)
-
 # **📄 Dokumentace k API – Modul Burza**  
 Tato dokumentace popisuje všechny **dostupné endpointy** modulu **Burza**, jejich **použití**, **příklady požadavků a odpovědí**, a **jak API testovat**.
 
 ---
 
 ## **📌 Přehled**
-| **Vlastnost**     | **Hodnota**                     |
-|------------------|--------------------------------|
-| **Base URL**     | `https://doména/swagger` |
-| **Autentizace**  | Není potřeba (public API)      |
+| **Vlastnost** | **Hodnota**                                                                                 |
+|---------------|----------------------------------------------------------------------------------------------|
+| **Prohlížeč API**  | [Swagger](https://stinburza.azurewebsites.net/swagger/index.html) |
+| **Autentizace** | Není potřeba                                                                 |
 
-## **Zbytek někdy přijde**
+
+![image](https://github.com/user-attachments/assets/feb8fb2d-ce2e-4a61-a822-1e17da5a7b07)
+## **Zbytek dokumentace TBD**

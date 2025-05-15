@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat Code Coverage">
+        <Configuration>
+          <Exclude>
+            <!-- vyloučíme vše pod Pages/ -->
+            <SourceFiles>**/Pages/**/*.cs</SourceFiles>
+            <!-- vyloučíme i Program.cs -->
+            <SourceFiles>**/Program.cs</SourceFiles>
+          </Exclude>
+          <!-- Pokud by nějaké třídy stále lezly dovnitř, můžeme je vypnout i podle atributu: -->
+          <Exclude>
+            <Attributes>ExcludeFromCodeCoverageAttribute</Attributes>
+          </Exclude>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

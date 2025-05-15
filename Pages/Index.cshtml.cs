@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Diagnostics.CodeAnalysis;
 
 namespace STIN_Burza.Pages;
-
+[ExcludeFromCodeCoverage]
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;

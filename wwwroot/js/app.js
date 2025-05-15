@@ -7,61 +7,69 @@ const stockDataCache = {};
 // Pro uložení poslední hodnoty a % změny, abychom mohli třídit
 const modulesData = {};
 
+var apiZpravy = [];
+const apiZpravyDiv = document.getElementById("apiInfo");
+
+function addApiZprava() {
+  apiZpravyDiv.innerHTML = "";
+  apiZpravy.forEach(element => {
+    console.log("Zpráva:", element);
+    apiZpravyDiv.innerHTML += `<p>${element}</p>`;
+  });
+}
+
+var typFiltru = 3; // defaultně 3 dny
+
+var threshold = nactiThreshold(); // Hranice pro určení hodnoty sell
+document.getElementById("threshold").innerHTML = threshold;
+
 // Globální pole firem
 let searchResults = [];
 let selectedSet = new Set();
 
-// Odkazy
-const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('overlay');
+const overlay = document.getElementById("overlay");
+const companySearch = document.getElementById("companySearch");
+const companyList = document.getElementById("companyList");
+const selectedCompaniesDiv = document.getElementById("selectedCompanies");
+const addToGridBtn = document.getElementById("addToGridBtn");
+const modulesGrid = document.getElementById("modulesGrid");
+const sendToApiBtn = document.getElementById("sendToApiBtn");
 
-const companySearch = document.getElementById('companySearch');
-const companyList = document.getElementById('companyList');
-const selectedCompaniesDiv = document.getElementById('selectedCompanies');
-const addToGridBtn = document.getElementById('addToGridBtn');
-const modulesGrid = document.getElementById('modulesGrid');
+const dayRange = document.getElementById("dayRange");
 
-const dayRange = document.getElementById('dayRange');
-const sortUpBtn = document.getElementById('sortUpBtn');
-const sortDownBtn = document.getElementById('sortDownBtn');
+const modeSwitcher = document.getElementById("modeSwitcher");
 
-// Modal
-const detailModal = document.getElementById('detailModal');
-const modalCloseBtn = document.getElementById('modalCloseBtn');
-const modalTitle = document.getElementById('modalTitle');
-const modalBody = document.getElementById('modalBody');
-
-// 1) Otevírání / zavírání sidebaru
-toggleSidebarBtn.addEventListener('click', () => {
-  if (sidebar.classList.contains('open')) closeSidebar();
-  else openSidebar();
-});
-overlay.addEventListener('click', () => {
-  closeSidebar();
-});
-function openSidebar() {
-  sidebar.classList.add('open');
-  overlay.classList.add('open');
+// === DARK MODE toggle ===
+const darkModeCheckbox = document.getElementById("darkModeCheckbox");
+if (darkModeCheckbox) {
+  darkModeCheckbox.addEventListener("change", () => {
+    document.body.classList.toggle("dark-mode", darkModeCheckbox.checked);
+  });
 }
-function closeSidebar() {
-  sidebar.classList.remove('open');
-  overlay.classList.remove('open');
-}
+
+modeSwitcher.addEventListener("click", () => {
+  if (document.getElementById("modeSwitcherSpan").innerHTML === "3 dny") {
+    document.getElementById("modeSwitcherSpan").innerHTML = "5 dní";
+    typFiltru = 5;
+  } else {
+    document.getElementById("modeSwitcherSpan").innerHTML = "3 dny";
+    typFiltru = 3;
+  }
+});
 
 // 2) DEBOUNCE vyhledávání + min. počet znaků
 let debounceTimer;
-companySearch.addEventListener('input', () => {
+companySearch.addEventListener("input", () => {
   clearTimeout(debounceTimer);
 
   const query = companySearch.value.trim();
   if (query.length < 3) {
-    companyList.innerHTML = '';
+    companyList.innerHTML = "";
     return;
   }
 
   debounceTimer = setTimeout(() => {
-    searchCompanies(query).then(results => {
+    searchCompanies(query).then((results) => {
       searchResults = results;
       renderCompanyList();
     });
@@ -69,43 +77,38 @@ companySearch.addEventListener('input', () => {
 });
 
 // 3) Tlačítko Přidat do Gridu
-addToGridBtn.addEventListener('click', () => {
+/*addToGridBtn.addEventListener("click", () => {
   // Odstranění modulů, které už nejsou ve selectedSet
-  const existingModules = Array.from(modulesGrid.querySelectorAll('.module'));
-  existingModules.forEach(m => {
-    const symbol = m.id.replace('mod-', '');
+  const existingModules = Array.from(modulesGrid.querySelectorAll(".module"));
+  existingModules.forEach((m) => {
+    const symbol = m.id.replace("mod-", "");
     if (!selectedSet.has(symbol)) m.remove();
   });
 
   // Přidání modulů, které chybí
-  selectedSet.forEach(symbol => {
-    if (!document.getElementById('mod-' + symbol)) {
+  selectedSet.forEach((symbol) => {
+    if (!document.getElementById("mod-" + symbol)) {
       addModule(symbol);
     }
   });
-});
+});*/
 
 // 4) Vykreslení seznamu firem (výsledky vyhledávání)
 function renderCompanyList() {
-  companyList.innerHTML = '';
-  searchResults.forEach(item => {
+  companyList.innerHTML = "";
+  searchResults.forEach((item) => {
     const symbol = item["1. symbol"];
     const name = item["2. name"];
-    const li = document.createElement('li');
+    const li = document.createElement("li");
     li.textContent = `${name} (${symbol})`;
     li.dataset.symbol = symbol;
 
     if (selectedSet.has(symbol)) {
-      li.classList.add('selected');
+      li.classList.add("selected");
     }
-    li.addEventListener('click', () => {
-      if (li.classList.contains('selected')) {
-        li.classList.remove('selected');
-        selectedSet.delete(symbol);
-      } else {
-        li.classList.add('selected');
-        selectedSet.add(symbol);
-      }
+    li.addEventListener("click", () => {
+      selectedSet.add(symbol);
+      addModule(symbol);
       showSelectedCompanies();
     });
     companyList.appendChild(li);
@@ -114,24 +117,26 @@ function renderCompanyList() {
 
 // 5) Zobrazení vybraných Akcií
 function showSelectedCompanies() {
-  selectedCompaniesDiv.innerHTML = '';
-  selectedSet.forEach(symbol => {
-    const found = searchResults.find(i => i["1. symbol"] === symbol);
+  selectedCompaniesDiv.innerHTML = "";
+  selectedSet.forEach((symbol) => {
+    const found = searchResults.find((i) => i["1. symbol"] === symbol);
     const name = found ? found["2. name"] : symbol;
 
-    const chip = document.createElement('div');
-    chip.classList.add('chip');
+    const chip = document.createElement("div");
+    chip.classList.add("chip");
     chip.textContent = name;
 
-    const closeSpan = document.createElement('span');
-    closeSpan.classList.add('chip-close');
-    closeSpan.textContent = '✕';
-    closeSpan.addEventListener('click', (e) => {
+    const closeSpan = document.createElement("span");
+    closeSpan.classList.add("chip-close");
+    closeSpan.textContent = "✕";
+    closeSpan.addEventListener("click", (e) => {
       e.stopPropagation();
       selectedSet.delete(symbol);
       showSelectedCompanies();
       const li = companyList.querySelector(`li[data-symbol="${symbol}"]`);
-      if (li) li.classList.remove('selected');
+      if (li) li.classList.remove("selected");
+      const mod = document.getElementById(`mod-${symbol}`);
+      if (mod) mod.remove();
     });
 
     chip.appendChild(closeSpan);
@@ -141,16 +146,16 @@ function showSelectedCompanies() {
 
 // 6) Vytvoření modulu (Akcie) s Plotly grafem
 function addModule(symbol) {
-  if (document.getElementById('mod-' + symbol)) return;
+  if (document.getElementById("mod-" + symbol)) return;
 
-  const found = searchResults.find(i => i["1. symbol"] === symbol);
+  const found = searchResults.find((i) => i["1. symbol"] === symbol);
   const name = found ? found["2. name"] : symbol;
 
-  const moduleElem = document.createElement('article');
-  moduleElem.classList.add('module');
-  moduleElem.id = 'mod-' + symbol;
+  const moduleElem = document.createElement("article");
+  moduleElem.classList.add("module");
+  moduleElem.id = "mod-" + symbol;
+  moduleElem.dataset.name = name;
 
-  // Button "x" pro odstranění z gridu
   moduleElem.innerHTML = `
     <div class="module-remove" title="Odstranit modul">×</div>
     <div class="module-top">
@@ -167,50 +172,51 @@ function addModule(symbol) {
   `;
 
   // Kliknutí na modul (kromě "x") => detail
-  moduleElem.addEventListener('click', (e) => {
-    if (e.target.classList.contains('module-remove')) return;
+  moduleElem.addEventListener("click", (e) => {
+    if (e.target.classList.contains("module-remove")) return;
     showDetailModal({ symbol, name });
   });
 
   // Kliknutí na "x" => odstranění modulu
-  const removeBtn = moduleElem.querySelector('.module-remove');
-  removeBtn.addEventListener('click', (e) => {
+  const removeBtn = moduleElem.querySelector(".module-remove");
+  removeBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     selectedSet.delete(symbol);
     moduleElem.remove();
     showSelectedCompanies();
   });
 
+  console.log("Přidávám modul", symbol);
   modulesGrid.appendChild(moduleElem);
 
   // Načtení dat z Alphavantage
   fetchStockData(symbol)
-    .then(data => {
-      renderPlotlyCandlestick(symbol, data);
+    .then((data) => {
+      renderPlotlyCandlestick(symbol, data, name);
       updateStockInfo(symbol, data);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Chyba data pro", symbol, err);
     });
 }
 
 // 7) Kešované vyhledání firem (SYMBOL_SEARCH)
 function searchCompanies(query) {
-  const apiKey = 'JME1OBSYLJIEQAW6';
+  const apiKey = "JME1OBSYLJIEQAW6";
   if (searchCache[query]) {
     console.log("Používám keš pro search:", query);
     return Promise.resolve(searchCache[query]);
   }
   const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${apiKey}`;
   return fetch(url)
-    .then(resp => resp.json())
-    .then(json => {
+    .then((resp) => resp.json())
+    .then((json) => {
       if (!json.bestMatches) return [];
       const best = json.bestMatches;
       searchCache[query] = best;
       return best;
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Chyba searchCompanies", err);
       return [];
     });
@@ -218,22 +224,22 @@ function searchCompanies(query) {
 
 // 8) Kešované fetchStockData (TIME_SERIES_DAILY)
 function fetchStockData(symbol) {
-  const apiKey = 'JME1OBSYLJIEQAW6';
+  const apiKey = "JME1OBSYLJIEQAW6";
   if (stockDataCache[symbol]) {
     console.log("Používám keš pro symbol:", symbol);
     return Promise.resolve(stockDataCache[symbol]);
   }
   const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`;
   return fetch(url)
-    .then(r => r.json())
-    .then(data => {
+    .then((r) => r.json())
+    .then((data) => {
       stockDataCache[symbol] = data;
       return data;
     });
 }
 
 // 9) Plotly Candlestick
-function renderPlotlyCandlestick(symbol, data) {
+function renderPlotlyCandlestick(symbol, data, name) {
   const series = data["Time Series (Daily)"];
   if (!series) {
     console.error("Chybná data pro", symbol, data);
@@ -248,7 +254,7 @@ function renderPlotlyCandlestick(symbol, data) {
 
   // Seřaď klíče (datumy) a naplň pole
   const sortedKeys = Object.keys(series).sort();
-  sortedKeys.forEach(dateStr => {
+  sortedKeys.forEach((dateStr) => {
     dates.push(dateStr);
     openArr.push(parseFloat(series[dateStr]["1. open"]));
     highArr.push(parseFloat(series[dateStr]["2. high"]));
@@ -256,20 +262,23 @@ function renderPlotlyCandlestick(symbol, data) {
     closeArr.push(parseFloat(series[dateStr]["4. close"]));
   });
 
-  // Plotly 
+  // Plotly
   const trace = {
     x: dates,
     open: openArr,
     high: highArr,
     low: lowArr,
     close: closeArr,
-    type: 'candlestick'
+    type: "candlestick",
   };
 
   const layout = {
-    title: `Svíčkový graf - ${symbol}`,
-    dragmode: 'pan',
-    margin: { l: 40, r: 10, t: 40, b: 40 }
+    title: `${name} - ${symbol}`,
+    dragmode: "pan",
+    margin: { l: 40, r: 10, t: 40, b: 40 },
+    paper_bgcolor: "rgba(0,0,0,0)",
+    plot_bgcolor: "rgba(0,0,0,0)",
+    font: { color: "#999" },
   };
 
   Plotly.newPlot(`plot-${symbol}`, [trace], layout);
@@ -291,7 +300,7 @@ function updateStockInfo(symbol, data) {
 
   modulesData[symbol] = {
     lastClose: latestClose,
-    changePerc: changePerc
+    changePerc: changePerc,
   };
 
   const infoElem = document.getElementById(`info-${symbol}`);
@@ -303,20 +312,220 @@ function updateStockInfo(symbol, data) {
   }
 }
 
-// 11) Modal detail
-function showDetailModal(obj) {
-  modalTitle.textContent = (obj.name || obj.symbol) + " - Detail";
-  modalBody.textContent = "Zde bys mohl zobrazit detailnější info...";
-  detailModal.classList.add('open');
+// 14) Filtr pro API
+function toISOStringNoMs(dt) {
+  return dt.toISOString().split('.')[0] + '+00:00';
 }
-modalCloseBtn.addEventListener('click', () => {
-  detailModal.classList.remove('open');
-});
 
-// 12) Sort Up / Down
-sortUpBtn.addEventListener('click', () => {
-  console.log("Sort Up, range =", dayRange.value);
-});
-sortDownBtn.addEventListener('click', () => {
-  console.log("Sort Down, range =", dayRange.value);
-});
+// 2) Sestaví JSON podle modulů
+// 2) Sestaví JSON podle modulů a aplikuje filtr podle typFiltru
+function filterCompanies() {
+  // 1) sebereme všechny symboly z existujících modulů
+  const modules = document.getElementsByClassName('module');
+  const symbols = Array.from(modules)
+    .map(mod => mod.id.replace('mod-', ''));
+
+  // 2) projdeme každý symbol a zkontrolujeme data v cache
+  const filtered = symbols.filter(symbol => {
+    const data = stockDataCache[symbol];
+    if (!data || !data["Time Series (Daily)"]) return false;
+
+    // Time Series
+    const series = data["Time Series (Daily)"];
+    // seřazené datumy (trading days)
+    const dates = Object.keys(series).sort();
+
+    // helper: vyextrahuje pole close hodnot pro posledních N+1 dní
+    const getCloses = (n) => {
+      const slice = dates.slice(- (n + 1)); // N+1 dat pro N porovnání
+      return slice.map(d => parseFloat(series[d]["4. close"]));
+    };
+
+    if (typFiltru === 3) {
+      // potřebujeme 4 data pro 3 po sobě jdoucí poklesy
+      if (dates.length < 4) return false;
+      const closes = getCloses(3);
+      // tři poklesy: c0>c1, c1>c2, c2>c3
+      return closes[0] > closes[1]
+        && closes[1] > closes[2]
+        && closes[2] > closes[3];
+    } else if (typFiltru === 5) {
+      // potřebujeme 6 dat pro 5 intervalů, ze kterých spočítáme poklesy
+      if (dates.length < 6) return false;
+      const closes = getCloses(5);
+      // spočítáme, kolikrát c[i] > c[i+1]
+      let declines = 0;
+      for (let i = 0; i < closes.length - 1; i++) {
+        if (closes[i] > closes[i + 1]) declines++;
+      }
+      // chceme více než 2 poklesy
+      return declines > 2;
+    }
+
+    // ostatní typy filtru (pokud by se přidaly) vrátí false
+    return false;
+  });
+
+  // 3) vrátíme JSON se seznamem filtrovaných firem a aktuálním typFiltru
+  return JSON.stringify({
+    stocks: filtered,
+    type: typFiltru
+  });
+}
+
+
+// 3) Tohle zavolá přímo inline onclick – **žádné další addEventListenery zde**
+function CallListStockAPI() {
+  // a) rozparsovat
+  const { stocks, type } = JSON.parse(filterCompanies());
+  console.log('Vybrané akcie:', stocks, 'typ:', type);
+
+  // b) timestampy
+  const now = new Date();
+  const timestamp = toISOStringNoMs(now);
+  const date_from = toISOStringNoMs(new Date(now.getTime() - type * 24 * 60 * 60 * 1000));
+  const date_to = timestamp;
+
+  // c) payload
+  const payload = {
+    timestamp,
+    date_from,
+    date_to,
+    stocks: stocks.map(name => ({ name, rating: null, sell: null }))
+  };
+
+  const aktualniCas = new Date();
+  const formattedCas = aktualniCas.toLocaleString('cs-CZ', {
+    timeZone: 'Europe/Prague',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+
+  apiZpravy.push(formattedCas + ' - odesílám call endpoint liststock.')
+
+  console.log('Odesílám payload:', payload);
+  console.log('JSON.stringify:', JSON.stringify(payload, null, 2));
+
+  // d) fetch na proxy endpoint
+  fetch('/api/burza/liststock', {
+    method: 'POST',
+    headers: {
+      burza: 'velmitajneheslo',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(resp => {
+      console.log('Adresa API:', resp.url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return resp.json();
+    })
+    .then(data => {
+      console.log('API odpověď:', data);
+      alert('Testovací data úspěšně odeslána!');
+    })
+    .catch(err => {
+      console.error('Chyba při odesílání:', err);
+      alert('Nepodařilo se odeslat testovací data.');
+    });
+}
+
+function zvysHranici() {
+  if (threshold != 10) {
+    threshold += 1;
+    document.getElementById("threshold").innerHTML = threshold;
+    console.log("Zvýšení hranice na", threshold);
+    console.log(JSON.stringify({ threshold }));
+
+    fetch('/api/burza/setThreshold', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ threshold })
+    })
+      .then(resp => {
+        console.log('Adresa API:', resp.url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp;
+      })
+      .then(data => {
+        console.log('API odpověď:', data);
+        //alert('Hranice úspěšně zvýšena!');
+      })
+      .catch(err => {
+        console.error('Chyba při zvyšování hranice:', err);
+        alert('Nepodařilo se zvýšit hranici.');
+      });
+  }
+}
+
+function snizHranici() {
+  if (threshold != -10) {
+    threshold -= 1;
+    document.getElementById("threshold").innerHTML = threshold;
+    console.log("Snížení hranice na", threshold);
+    console.log(JSON.stringify({ threshold }));
+
+    fetch('/api/burza/setThreshold', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ threshold })
+    })
+      .then(resp => {
+        console.log('Adresa API:', resp.url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp;
+      })
+      .then(data => {
+        console.log('API odpověď:', data);
+        //alert('Hranice úspěšně snížena!');
+      })
+      .catch(err => {
+        console.error('Chyba při snižování hranice:', err);
+        alert('Nepodařilo se snížit hranici.');
+      });
+  }
+}
+
+function nactiThreshold() {
+  fetch('/api/burza/getThreshold')
+    .then(resp => {
+      console.log('Adresa API:', resp.url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return resp.json();
+    })
+    .then(data => {
+      console.log('API odpověď:', data);
+      threshold = data.threshold;
+      document.getElementById("threshold").innerHTML = threshold;
+    })
+    .catch(err => {
+      console.error('Chyba při načítání hranice:', err);
+      alert('Nepodařilo se načíst hranici.');
+    });
+}
+
+function zavriVolbuHranice() {
+  const elementy = document.querySelectorAll(".zmenaHodnoty");
+  elementy.forEach((element) => {
+    element.style.width = "0%";
+  });
+}
+
+function otevriVolbuHranice() {
+  console.log("otevriVolbuHranice");
+  const elementy = document.querySelectorAll(".zmenaHodnoty");
+  elementy.forEach((element) => {
+    element.style.width = "33%";
+  });
+}
+
+if (!sendToApiBtn) {
+  console.error("sendToApiBtn Není!");
+} else {
+  console.log("sendToApiBtn Načteno:");
+}

@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- Pro všechny projekty ve stromu vypne SDK‐generování AssemblyInfo -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <ExcludeByFile>**/Pages/**/*.cs;**/Program.cs</ExcludeByFile>
+  </PropertyGroup>
+</Project>

@@ -1,101 +1,196 @@
-﻿@* Soubor: Pages/Shared/_Layout.cshtml *@
+﻿<!-- _Layout.cshtml -->
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - STIN Burza</title>
-
-    <!-- Základní styly -->
     <link rel="stylesheet" href="~/css/styles.css" />
-
+    <!-- <link rel="stylesheet" href="~/css/sidebar.css" /> -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <!-- Plotly z CDN (bez bundleru) -->
     <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    
+    </style>
 </head>
+
 <body>
-    <!-- FIXNÍ HEADER -->
-    <header class="top-header">
-        <div class="header-left">
-            <button id="toggleSidebarBtn" class="btn-menu">☰</button>
-            <div class="app-logo"><strong>BURZA</strong></div>
-        </div>
-        <div class="user-info">
-            Přihlášený uživatel: <strong>NULL</strong>
-        </div>
-    </header>
+    <script>
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark');
+        }
+    </script>
 
-    <!-- SIDEBAR (overlay) -->
-    <aside class="sidebar" id="sidebar">
-        <!-- Horní sekce: Filtr akcií -->
-        <div class="sidebar-header">
-            <h2>Filtr akcií</h2>
-            <div class="filter-section">
-                <label for="companySearch">Název firmy...</label>
-                <input type="text" id="companySearch" placeholder="Název firmy..." />
-            </div>
-        </div>
-
-        <!-- Střední sekce: Seznam firem -->
-        <div class="sidebar-body">
-            <div class="scrollable-list" id="companyList"></div>
-            <div class="selected-area">
-                <label>Vybrané společnosti:</label>
-                <div id="selectedCompanies" class="selected-companies"></div>
-            </div>
-        </div>
-
-        <!-- Spodní sekce: Dynamický button -->
-        <div class="sidebar-footer">
-            <div class="add-button-area">
-                <button id="addToGridBtn" class="btn-confirm">Přidat do Gridu</button>
-            </div>
-            <div class="day-range-section">
-                <label>Rozmezí dnů:</label>
-                <div class="range-row">
-                    <select id="dayRange">
-                        <option value="-6">-6</option>
-                        <option value="-5">-5</option>
-                        <option value="-4">-4</option>
-                        <option value="-3">-3</option>
-                        <option value="-2">-2</option>
-                        <option value="-1">-1</option>
-                        <option value="0" selected>0</option>
-                        <option value="1">+1</option>
-                        <option value="2">+2</option>
-                        <option value="3">+3</option>
-                        <option value="4">+4</option>
-                        <option value="5">+5</option>
-                        <option value="6">+6</option>
-                    </select>
-                    <button id="sortUpBtn" class="btn-sort" title="Sort Up">
-                        <span class="arrow-up">▲</span>
-                    </button>
-                    <button id="sortDownBtn" class="btn-sort" title="Sort Down">
-                        <span class="arrow-down">▼</span>
-                    </button>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="/img/user.png" alt="">
+                </span>
+                <div class="text logo-text">
+                    <span class="name">Cyril Líbal</span>
+                    <span class="profession">Uživatel</span>
                 </div>
             </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+        <div class="menu-bar">
+            <div class="menu">
+                <li onclick="toggleSearch()" class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-search icon'></i>
+                        <span class="text nav-text">Najít firmy</span>
+                    </a>
+                </li>
+                <div class="hledaniFirmy">
+                    <li class="search-box">
+                        <i class='bx icon'></i>
+                        <input id="companySearch" type="text" placeholder="Vyhledat...">
+                    </li>
+                    <div class="sidebar-body">
+                        <div class="scrollable-list" id="companyList"></div>
+                    </div>
+                </div>
+                <ul class="menu-links">
+                    <li onclick="window.location.href='/'" class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-home-alt icon'></i>
+                            <span class="text nav-text">Burza</span>
+                        </a>
+                    </li>
+                    <li onclick="window.location.href='/swagger'" class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-pie-chart-alt icon'></i>
+                            <span class="text nav-text">API</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <li id="sendToApiBtn" class="nav-link mode" onclick="CallListStockAPI()">
+                    <a style="justify-content: center;" href="#">
+                        <span class="text nav-text">Odeslat do Zpráv</span>
+                    </a>
+                </li>
+            </div>
+            <div class="bottom-content">
+
+                <li id="vyberHranice" class="vyberHranice">
+                    <div onclick="snizHranici()" class="zmenaHodnoty closed">
+                        -
+                    </div>
+                    <div id="threshold" class="hodnota">
+                        0
+                    </div>
+                    <div onclick="zvysHranici()" class="zmenaHodnoty closed">
+                        +
+                    </div>
+                </li>
+
+                <li class="">
+                    <a id="modeSwitcher" href="#">
+                        <i class='bx bx-cog icon'></i>
+                        <span id="modeSwitcherSpan" class="text nav-text">3 dny</span>
+                    </a>
+                </li>
+
+                <li class="">
+                    <a href="#">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Odhlásit se</span>
+                    </a>
+                </li>
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </div>
         </div>
-    </aside>
-
-    <!-- OVERLAY -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- HLAVNÍ OBSAH -->
+    </nav>
+    <!-- HLAVNÍ OBSAH (Grafy s daty) -->
     <main class="main-content">
         @RenderBody()
     </main>
 
-    <!-- MODAL pro detail akcie -->
-    <div class="modal" id="detailModal">
-        <div class="modal-content" id="detailModalContent">
-            <span class="modal-close" id="modalCloseBtn">&times;</span>
-            <h3 id="modalTitle">Detail akcie</h3>
-            <p id="modalBody">Zde se zobrazí detailní info...</p>
-        </div>
-    </div>
+    <script>
+        const body = document.querySelector('body'),
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle"),
+            searchBtn = body.querySelector(".search-box"),
+            modeSwitch = body.querySelector(".toggle-switch"),
+            modeText = body.querySelector(".mode-text");
+        
+        toggle.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle("open");
+                sidebar.classList.remove("close");
+            } else {
+                sidebar.classList.toggle("close");
+                sidebar.classList.remove("open");
+            }
+            closeSearch();
+            document.querySelectorAll(".zmenaHodnoty").forEach(el => el.classList.toggle("closed"));
+        });
+        searchBtn.addEventListener("click", () => {
+            sidebar.classList.remove("close");
+            otevriVolbuHranice();
+        });
+        modeSwitch.addEventListener("click", () => {
+            body.classList.toggle("dark");
+            if (body.classList.contains("dark")) {
+                localStorage.setItem('darkMode', 'true');
+                modeText.innerText = "Light mode";
+            } else {
+                localStorage.setItem('darkMode', 'false');
+                modeText.innerText = "Dark mode";
+            }
+        });
+        const mainContent = document.querySelector('.main-content');
+        mainContent.addEventListener('click', () => {
+            if (!sidebar.classList.contains('close')) {
+                sidebar.classList.add('close');
+                zavriVolbuHranice();
+            } else {
+                otevriVolbuHranice();
+            }
+            closeSearch();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var script = document.createElement('script');
+            script.src = '/js/app.js';
+            document.body.appendChild(script);
+        });
 
-    <!-- Hlavní JS logika (app.js) -->
-    <script src="~/js/app.js"></script>
+        function toggleSearch() {
+            var searchBox = document.querySelector('.hledaniFirmy');
+            if (searchBox.style.maxHeight != "200px") {
+                openSearch();
+                if (sidebar.classList.contains("close")) {
+                    sidebar.classList.remove("close");
+                }
+            } else {
+                closeSearch();
+            }
+        }
+        function closeSearch() {
+            var searchBox = document.querySelector('.hledaniFirmy');
+            searchBox.style.maxHeight = "0px";
+        }
+        function openSearch() {
+            var searchBox = document.querySelector('.hledaniFirmy');
+            searchBox.style.maxHeight = "200px";
+        }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>

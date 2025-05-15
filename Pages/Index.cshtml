@@ -1,13 +1,33 @@
 ﻿@page
+@using STIN_Burza.Pages
 @model IndexModel
 @{
     ViewData["Title"] = "Domů";
+    ViewData["ShowHeader"] = true;
 }
 
 <h2>Hlavní stránka - STIN Burza</h2>
 
+<button id="toggleApiInfo" class="btn btn-secondary">Zobrazit API info</button>
+<div id="apiInfo" class="apiInfo" style="display:none;">
+  <h3>API informace</h3>
+  <p>10:42 - Odeslán call na endpoint listStock</p>
+</div>
+
+  <script>
+    document.getElementById('toggleApiInfo').addEventListener('click', function() {
+      var info = document.getElementById('apiInfo');
+      var isHidden = info.style.display === 'none';
+      info.style.display = isHidden ? 'block' : 'none';
+      this.textContent = isHidden ? 'Skrýt API info' : 'Zobrazit API info';
+      addApiZprava();
+    });
+  </script>
+
 <!-- Sem se budou dynamicky vkládat moduly (grafy) -->
-<div id="modulesGrid" class="modules-grid"></div>
+<div id="modulesGrid" class="modules-grid">
+    
+</div>
 
 @section Scripts {
     <script>
