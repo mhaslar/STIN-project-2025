@@ -18,6 +18,7 @@ namespace STIN_Burza.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly StockService _stockService;
+        private static int _threshold;
 
         public BurzaController(HttpClient httpClient, StockService stockService)
         {
@@ -96,28 +97,6 @@ namespace STIN_Burza.Controllers
             }
         }
 
-        // Endpoint: `salestock`
-        [HttpPost("salestock")]
-        public IActionResult SellStock([FromBody] JsonElement request)
-        {
-            // 1) Získání JSON payloadu jako string
-            string jsonPayloadToSend = request.ToString() ?? "{}";
-            Console.WriteLine($"Volání externího API burzy. Payload: {jsonPayloadToSend}");
-            System.Diagnostics.Debug.WriteLine($"Volání externího API burzy. Payload: {jsonPayloadToSend}");
-
-            if (string.IsNullOrEmpty(jsonPayloadToSend))
-            {
-                System.Diagnostics.Debug.WriteLine("Prázdný payload.");
-                return BadRequest("Tělo požadavku je prázdné.");
-            }
-
-            // 2) Odeslání požadavku na externí API
-            var response = _stockService.SellStock(jsonPayloadToSend);
-            if (response == null)
-                return StatusCode(500, "Nepodařilo se načíst data z externího API.");
-            return Ok(response);
-        }
-
         [HttpPost("getRating")]
         public async Task<IActionResult> GetRatingsFromZpravy([FromBody] JsonElement request)
         {
@@ -138,9 +117,12 @@ namespace STIN_Burza.Controllers
             // 2) Pro každý stock nastavíme sell = true, pokud rating < 0, jinak false
             foreach (var s in ratingReq.Stocks)
             {
-                if (s.Rating.HasValue && s.Rating.Value > 0) {
+                if (s.Rating.HasValue && s.Rating.Value > _threshold)
+                {
                     s.Sell = 1;
-                } else {
+                }
+                else
+                {
                     s.Sell = 0;
                 }
             }
@@ -186,9 +168,6 @@ namespace STIN_Burza.Controllers
     }
             };
 
-
-
-
             var content = new StringContent(resultJson, Encoding.UTF8);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             httpReq.Content = content;
@@ -221,31 +200,50 @@ namespace STIN_Burza.Controllers
             }
         }
 
-        public class StockRating
+        [HttpPost("setThreshold")]
+        public IActionResult SetThreshold([FromBody] JsonElement request)
         {
-            [JsonPropertyName("name")]
-            public string Name { get; set; }
+            if (!request.TryGetProperty("threshold", out JsonElement thEl))
+                return BadRequest("Missing 'threshold' in body.");
 
-            [JsonPropertyName("rating")]
-            public decimal? Rating { get; set; }
+            if (!thEl.TryGetInt32(out int threshold))
+                return BadRequest("'threshold' must be an integer.");
 
-            [JsonPropertyName("sell")]
-            public int? Sell { get; set; }
+            _threshold = threshold;
+            return Ok();
         }
 
-        public class GetRatingRequest
+        [HttpGet("getThreshold")]
+        public IActionResult GetThreshold()
         {
-            [JsonPropertyName("timestamp")]
-            public DateTimeOffset Timestamp { get; set; }
-
-            [JsonPropertyName("date_from")]
-            public DateTimeOffset DateFrom { get; set; }
-
-            [JsonPropertyName("date_to")]
-            public DateTimeOffset DateTo { get; set; }
-
-            [JsonPropertyName("stocks")]
-            public List<StockRating> Stocks { get; set; }
+            return Ok(new { threshold = _threshold });
         }
+    }
+
+    public class StockRating
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("rating")]
+        public decimal? Rating { get; set; }
+
+        [JsonPropertyName("sell")]
+        public int? Sell { get; set; }
+    }
+
+    public class GetRatingRequest
+    {
+        [JsonPropertyName("timestamp")]
+        public DateTimeOffset Timestamp { get; set; }
+
+        [JsonPropertyName("date_from")]
+        public DateTimeOffset DateFrom { get; set; }
+
+        [JsonPropertyName("date_to")]
+        public DateTimeOffset DateTo { get; set; }
+
+        [JsonPropertyName("stocks")]
+        public List<StockRating> Stocks { get; set; }
     }
 }
